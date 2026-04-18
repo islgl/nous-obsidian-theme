@@ -339,9 +339,9 @@
   font-variant-caps: normal;
   letter-spacing: 0.01em;
   color: var(--nous-terracotta);
-  background: var(--nous-warm-sand);
+  background: transparent;
   text-align: left;
-  padding: 0.45em 0.9em;
+  padding: 0.45em 0.9em 0.25em;
   border: none !important;
   border-bottom: 1.5px solid var(--nous-ring-deep) !important;
   text-indent: 0;
@@ -361,9 +361,6 @@
 }
 .markdown-preview-view.handwriting tbody tr:nth-child(even) td {
   background: rgba(230, 221, 195, 0.28);
-}
-.theme-dark .markdown-preview-view.handwriting thead th {
-  background: rgba(201, 100, 66, 0.12);
 }
 .theme-dark .markdown-preview-view.handwriting tbody tr:nth-child(even) td {
   background: rgba(236, 233, 220, 0.04);
