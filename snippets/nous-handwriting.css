@@ -56,28 +56,23 @@
   color: #1c1c18;
 }
 
-/* Reading view — manuscript scale. Italianno has a very small
-   x-height (roughly ex/em ≈ 0.28 vs. Crimson Pro's ≈ 0.48), so at
-   the same em it reads much smaller than the serif callouts and
-   mono inline code sitting next to it. Two levers together:
-     · raise em to 1.85 so the absolute size is definitively large
-     · set font-size-adjust: 0.5 so the browser scales Italianno
-       (and any cursive fallback) to match a 0.5 ex-to-em aspect
-       — effectively normalizing x-height against the rest of the
-       theme. Children that set their own font-family (code, table,
-       callout, math) opt back out further down. */
+/* Reading view — manuscript scale. Italianno's small x-height means
+   it reads visibly smaller than adjacent serif / mono content at the
+   same em; we compensate by bumping body em and tuning child em
+   factors so children stay near their natural ~1em absolute size.
+   (Earlier attempt with font-size-adjust ballooned Italianno 1.79×
+   because its aspect ratio is ~0.28 — we skip that lever and use
+   straight em instead.) */
 .markdown-preview-view.handwriting {
-  font-size: 1.85em;
-  font-size-adjust: 0.5;
-  line-height: 1.65;
+  font-size: 1.55em;
+  line-height: 1.7;
 }
 
-/* Edit mode — still sizeable so typing in cursive feels like
-   writing on a page, not squinting at a script-styled form field. */
+/* Edit mode — sizeable enough that typing in cursive feels like
+   writing on a page, not filling in a form field. */
 .markdown-source-view.handwriting .cm-content {
-  font-size: 1.5em;
-  font-size-adjust: 0.5;
-  line-height: 1.6;
+  font-size: 1.2em;
+  line-height: 1.65;
 }
 .theme-dark .markdown-preview-view.handwriting,
 .theme-dark .markdown-source-view.handwriting .cm-content {
@@ -272,17 +267,18 @@
 }
 
 /* ---------- Code, tables, callouts, math — revert to base Nous typography ----------
-   Script fonts destroy the monospace grid and make tabular data unreadable.
-   These elements opt back out of handwriting mode — both font family
-   AND font-size-adjust, so the body-level x-height normalization
-   doesn't accidentally balloon code/callout/table sizes. */
+   Script fonts destroy the monospace grid and make tabular data
+   unreadable. These elements opt back to base typography.
+   Each em factor below is tuned so absolute size ≈ base theme:
+     handwriting body is 1.55em, so a child at ~0.65em lands at
+     ~1em absolute — same as the element would render outside
+     handwriting mode. */
 .markdown-preview-view.handwriting code,
 .markdown-preview-view.handwriting pre,
 .markdown-preview-view.handwriting pre code,
 .markdown-preview-view.handwriting :not(pre) > code {
   font-family: var(--nous-font-mono);
-  font-size: 0.78em;
-  font-size-adjust: none;
+  font-size: 0.55em;
   letter-spacing: -0.01em;
   font-style: normal;
   text-indent: 0;
@@ -303,8 +299,7 @@
    !important and we need to unseat it here. */
 .markdown-preview-view.handwriting table {
   font-family: var(--nous-font-serif-body);
-  font-size: 0.75em !important;
-  font-size-adjust: none;
+  font-size: 0.6em !important;
   line-height: 1.6;
   text-indent: 0;
   letter-spacing: normal;
@@ -357,8 +352,7 @@
 .markdown-preview-view.handwriting .callout-title,
 .markdown-preview-view.handwriting .callout-content {
   font-family: var(--nous-font-serif-body);
-  font-size: 0.72em;
-  font-size-adjust: none;
+  font-size: 0.65em;
   line-height: 1.55;
   letter-spacing: normal;
 }
@@ -374,7 +368,7 @@
 .markdown-preview-view.handwriting mjx-container,
 .markdown-preview-view.handwriting .katex {
   font-family: revert;
-  font-size-adjust: none;
+  font-size: 0.65em;
   text-indent: 0;
 }
 
