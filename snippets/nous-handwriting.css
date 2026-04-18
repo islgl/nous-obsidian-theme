@@ -305,17 +305,68 @@
   text-indent: 0;
 }
 
-.markdown-preview-view.handwriting table,
+/* Tables: ledger-journal look instead of severe LaTeX booktabs.
+   Calligraphic Parisienne header in terracotta ties into the H1 voice;
+   dotted row dividers and a soft warm-sand banding give a hand-ruled
+   ledger feel; cells stay in serif body so tabular data remains legible. */
+.markdown-preview-view.handwriting table {
+  border: none !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 0 0 1px var(--nous-ring-warm);
+  border-radius: 3px;
+  margin: 1.5em auto;
+  overflow: hidden;
+}
 .markdown-preview-view.handwriting thead,
 .markdown-preview-view.handwriting tbody,
-.markdown-preview-view.handwriting tr,
-.markdown-preview-view.handwriting th,
-.markdown-preview-view.handwriting td {
-  font-family: var(--nous-font-serif-body);
-  font-size: 0.92em;
-  line-height: 1.4;
+.markdown-preview-view.handwriting tr {
   text-indent: 0;
   letter-spacing: normal;
+  border: none !important;
+}
+.markdown-preview-view.handwriting thead th {
+  font-family:
+    "Parisienne",
+    "Pinyon Script",
+    "Xingkai SC",
+    "STXingkai",
+    "Kaiti SC",
+    "STKaiti",
+    cursive;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-variant-caps: normal;
+  letter-spacing: 0.01em;
+  color: var(--nous-terracotta);
+  background: var(--nous-warm-sand);
+  text-align: left;
+  padding: 0.45em 0.9em;
+  border: none !important;
+  border-bottom: 1.5px solid var(--nous-ring-deep) !important;
+  text-indent: 0;
+}
+.markdown-preview-view.handwriting tbody td {
+  font-family: var(--nous-font-serif-body);
+  font-size: 0.92em;
+  line-height: 1.5;
+  padding: 0.4em 0.9em;
+  text-indent: 0;
+  letter-spacing: normal;
+  border: none !important;
+  border-bottom: 1px dotted var(--nous-ring-warm) !important;
+}
+.markdown-preview-view.handwriting tbody tr:last-child td {
+  border-bottom: none !important;
+}
+.markdown-preview-view.handwriting tbody tr:nth-child(even) td {
+  background: rgba(230, 221, 195, 0.28);
+}
+.theme-dark .markdown-preview-view.handwriting thead th {
+  background: rgba(201, 100, 66, 0.12);
+}
+.theme-dark .markdown-preview-view.handwriting tbody tr:nth-child(even) td {
+  background: rgba(236, 233, 220, 0.04);
 }
 
 .markdown-preview-view.handwriting .callout,
