@@ -6,6 +6,9 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- **CHANGELOG push hook** — relaxed from "CHANGELOG must be staged or in unpushed commits" to "CHANGELOG must differ from origin/main in any way (working tree, staged, or committed)." Fixes false negatives when Claude chains `git add && git commit && git push` in one shell call — the hook now fires on the intent of the rule, not on mid-pipeline filesystem state.
+
 ### Fixed
 - **Mermaid dark-mode legibility** — nodes now lift to `--nous-warm-sand` in dark mode instead of `--background-primary-alt`, so node cards read as cards rather than as dark holes punched into an already-dark page. Cluster rects, sequence notes, and actor surfaces get the same treatment. Gantt grid lines switch to `--nous-ring-warm` in dark mode too.
 - **Mermaid edge-label boxes** — killed the solid rect Mermaid draws behind each edge label. The verb/condition now sits directly on the connector as italic muted prose (same family as the rest of the theme), matching the booktabs-caption aesthetic.

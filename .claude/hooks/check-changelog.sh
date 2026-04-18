@@ -1,47 +1,47 @@
 #!/usr/bin/env bash
 # PreToolUse hook — block `git push` unless CHANGELOG.md has been updated.
 #
-# Gate logic: allow the push if CHANGELOG.md is either
-#   (a) in the commits being pushed (diff against @{u}, or origin/main as a
-#       fallback when the branch has no upstream yet), OR
-#   (b) currently staged (user is mid-amend, about to squash the changelog
-#       entry into an existing commit).
+# Gate: the hook passes if CHANGELOG.md differs from the server copy in
+# any way — working tree, staged, or committed. That's the intent of the
+# rule ("every push must be preceded by a CHANGELOG update") and it also
+# tolerates compound commands like `git add && git commit && git push`,
+# where the hook would otherwise run before the add/commit took effect.
 #
-# When neither is true, emit a PreToolUse permission-deny JSON so Claude
-# refuses the git push and surfaces the reason to the operator.
+# Comparison target, in priority order:
+#   1. origin/main   — the canonical main-branch pointer we actually push to
+#   2. @{u}          — the current branch's upstream (covers non-main branches)
+#   3. HEAD          — repo has no remote at all (first-push bootstrap);
+#                      treat any presence of CHANGELOG.md as enough.
+#
+# On miss: emit a PreToolUse permission-deny JSON so Claude refuses the
+# push and surfaces the reason.
 
-set +e  # grep exits 1 on no matches — don't let that kill us under pipefail
+set +e
 
-changelog_file="CHANGELOG.md"
-
-staged_files=$(git diff --cached --name-only 2>/dev/null)
-
-# Prefer the tracked upstream; fall back to origin/main if the branch has
-# no upstream configured yet.
-if git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
-  pushed_files=$(git diff --name-only '@{u}..HEAD' 2>/dev/null)
-elif git rev-parse --verify origin/main >/dev/null 2>&1; then
-  pushed_files=$(git diff --name-only 'origin/main..HEAD' 2>/dev/null)
-else
-  # No upstream and no origin/main — this is the very first push of a new
-  # repo. Look at HEAD's own diff against the empty tree so all files are
-  # considered "being pushed."
-  pushed_files=$(git ls-tree -r --name-only HEAD 2>/dev/null)
-fi
-
+changelog="CHANGELOG.md"
 has_changelog=false
-if printf '%s\n' "$staged_files" | grep -Fxq "$changelog_file"; then
-  has_changelog=true
-fi
-if printf '%s\n' "$pushed_files" | grep -Fxq "$changelog_file"; then
-  has_changelog=true
+
+if git rev-parse --verify origin/main >/dev/null 2>&1; then
+  if ! git diff --quiet origin/main -- "$changelog" 2>/dev/null; then
+    has_changelog=true
+  fi
+elif git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+  if ! git diff --quiet '@{u}' -- "$changelog" 2>/dev/null; then
+    has_changelog=true
+  fi
+else
+  # No remote pointer at all — first push. Let it through if the file
+  # exists in the working tree or is tracked.
+  if [ -f "$changelog" ] || git ls-files --error-unmatch "$changelog" >/dev/null 2>&1; then
+    has_changelog=true
+  fi
 fi
 
 if [ "$has_changelog" = "true" ]; then
   exit 0
 fi
 
-jq -n --arg reason "Project rule (see CLAUDE.md): every git push must be preceded by a CHANGELOG.md update. Add an entry under [Unreleased] (or the appropriate release section) covering the pushed commits, stage it or fold it into a commit, then retry the push. If the change really is trivial, add a one-line entry under Unreleased > Changed — the rule is 'an entry exists,' not 'the entry is long.'" '{
+jq -n --arg reason "Project rule (see CLAUDE.md): every git push must be preceded by a CHANGELOG.md update. Add an entry under [Unreleased] (or the appropriate release section) covering the pushed commits, then retry the push. If the change really is trivial, add a one-line entry under Unreleased > Changed — the rule is 'an entry exists,' not 'the entry is long.'" '{
   hookSpecificOutput: {
     hookEventName: "PreToolUse",
     permissionDecision: "deny",
