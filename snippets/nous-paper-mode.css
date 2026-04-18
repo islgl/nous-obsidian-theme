@@ -100,6 +100,31 @@
   margin-right: 0.6em;
 }
 
+/* Collapse chevron — pull it out of the heading's inline flow so it doesn't
+   crash into the "§" section number. Same strategy as handwriting mode:
+   `position: absolute; right: 100%` parks the chevron in the left margin,
+   just past the heading's edge. The heading needs a positioning context. */
+.markdown-preview-view.paper h1,
+.markdown-preview-view.paper h2,
+.markdown-preview-view.paper h3,
+.markdown-preview-view.paper h4,
+.markdown-preview-view.paper h5,
+.markdown-preview-view.paper h6 {
+  position: relative;
+}
+.markdown-preview-view.paper h1 .heading-collapse-indicator,
+.markdown-preview-view.paper h2 .heading-collapse-indicator,
+.markdown-preview-view.paper h3 .heading-collapse-indicator,
+.markdown-preview-view.paper h4 .heading-collapse-indicator,
+.markdown-preview-view.paper h5 .heading-collapse-indicator,
+.markdown-preview-view.paper h6 .heading-collapse-indicator {
+  position: absolute;
+  right: 100%;
+  margin-right: 0.35em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* ---------- Figure caption — italic, centered, numbered ---------- */
 .markdown-preview-view.paper p > img {
   counter-increment: figc;
