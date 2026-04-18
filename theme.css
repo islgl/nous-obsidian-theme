@@ -2466,9 +2466,10 @@ textarea:focus,
   fill: var(--nous-ivory) !important;
   stroke: var(--nous-terracotta) !important;
 }
-.theme-dark .mermaid .actor {
-  fill: var(--nous-warm-sand) !important;
-}
+/* Dark-mode actor fill is overridden in the consolidated
+   .theme-dark .mermaid block near the bottom of this section — actors,
+   labelBox, and notes stay as light warm cream cards in dark mode so
+   Mermaid's forced fill:black tspan text stays readable. */
 .mermaid .actor-line,
 .mermaid line.actor-line {
   stroke: var(--nous-ring-warm) !important;
@@ -2491,10 +2492,9 @@ textarea:focus,
   fill: var(--nous-warm-sand) !important;
   stroke: var(--nous-ring-warm) !important;
 }
-.theme-dark .mermaid .note {
-  fill: var(--nous-warm-sand) !important;
-  stroke: var(--nous-ring-deep) !important;
-}
+/* Dark-mode note fill is overridden in the consolidated .theme-dark
+   .mermaid block near the bottom of this section — see the light-card
+   rule alongside actors and labelBox. */
 .mermaid .noteText,
 .mermaid g.note text { fill: var(--text-normal) !important; }
 .mermaid .loopLine {
@@ -2783,21 +2783,28 @@ textarea:focus,
   --mm-text-soft:   #a09b91;  /* one notch dimmer — captions, markers */
   --mm-surface:     #30302e;  /* node card surface (= --nous-warm-sand) */
   --mm-surface-low: #1c1c1a;  /* cluster backdrop (subtle lift over body) */
-  --mm-stroke:      #b25a3a;  /* muted terracotta — node border */
+  --mm-card-light:  #e8e2d2;  /* warm cream — sequence actors / notes /
+                                  labelBox; stay light in both modes so
+                                  Mermaid's fill:black tspan-text reads
+                                  without us having to fight the cascade */
+  --mm-card-light-stroke: #a67b5b;  /* tan border for the light cards */
+  --mm-stroke:      #b25a3a;  /* muted terracotta — node border (dark cards) */
   --mm-edge:        #7a7770;  /* edge line — warm medium gray */
   --mm-edge-strong: #9d9a92;  /* arrowheads — slightly brighter than edges */
   --mm-hairline:    #4d4c48;  /* dashed/subtle lines (actor line, ticks) */
   --mm-halo:        #141413;  /* page bg for text halo */
 }
 
-/* Node & actor surfaces */
+/* Node surfaces (flowchart / state / class / ER entity).
+   These are the "dark card" nodes — node text is painted via our own
+   `--mm-text` rule below, which DOES reach the text because Mermaid
+   doesn't inject a tspan-fill override for these diagram types. */
 .theme-dark .mermaid .node rect,
 .theme-dark .mermaid .node circle,
 .theme-dark .mermaid .node ellipse,
 .theme-dark .mermaid .node polygon,
 .theme-dark .mermaid .node path,
 .theme-dark .mermaid .state rect,
-.theme-dark .mermaid .actor,
 .theme-dark .mermaid rect.entityBox,
 .theme-dark .mermaid .entityBox {
   fill: var(--mm-surface) !important;
@@ -2805,15 +2812,26 @@ textarea:focus,
   stroke-width: 1.2px !important;
 }
 
+/* Sequence actor + labelBox — Mermaid's inline <style> forces
+   `text.actor > tspan { fill: black; }` with a selector (#svgid class >
+   tspan, specificity 1,1,2) that we can only beat by specificity if we
+   add an id-class dance. Simpler: keep the actor BOX light so the
+   forced-black tspan text stays readable. Same treatment for labelBox
+   and note (Mermaid paints their tspan children black too). */
+.theme-dark .mermaid .actor,
+.theme-dark .mermaid rect.actor,
+.theme-dark .mermaid .labelBox,
+.theme-dark .mermaid rect.labelBox,
+.theme-dark .mermaid .note,
+.theme-dark .mermaid rect.note {
+  fill: var(--mm-card-light) !important;
+  stroke: var(--mm-card-light-stroke) !important;
+  stroke-width: 1.2px !important;
+}
+
 /* Cluster / subgraph — one step below nodes so nesting reads */
 .theme-dark .mermaid .cluster rect {
   fill: var(--mm-surface-low) !important;
-  stroke: var(--mm-hairline) !important;
-}
-
-/* Sequence note — reuse node surface so notes read as cards */
-.theme-dark .mermaid .note {
-  fill: var(--mm-surface) !important;
   stroke: var(--mm-hairline) !important;
 }
 
@@ -2852,19 +2870,24 @@ textarea:focus,
   stroke: var(--mm-hairline) !important;
 }
 
-/* Text — node labels, message text, task text, ER entity/attribute,
-   pie title, legend labels. All on the calm warm off-white. */
+/* Text — ON DARK CARDS (flowchart node labels, ER entity/attribute,
+   task text, pie title, legend, cluster). Paint warm off-white so it
+   reads against var(--mm-surface). Covers both <text> and tspan
+   children in case Mermaid wraps content in <tspan> — for flowchart
+   the tspan children inherit the parent fill, so this cascades.
+
+   NOT in this group: anything inside a LIGHT card (actor text,
+   labelText, loopText, noteText). Those tspan children get a
+   fill:black from Mermaid's inline <style> that we deliberately
+   leave alone — black-on-cream reads fine. Overriding them would
+   just start a specificity war we'd lose anyway. */
 .theme-dark .mermaid .node text,
+.theme-dark .mermaid .node text tspan,
 .theme-dark .mermaid .nodeLabel,
 .theme-dark .mermaid .node foreignObject,
 .theme-dark .mermaid .node foreignObject div,
 .theme-dark .mermaid .node foreignObject span,
-.theme-dark .mermaid text.actor,
 .theme-dark .mermaid .messageText,
-.theme-dark .mermaid .labelText,
-.theme-dark .mermaid .loopText,
-.theme-dark .mermaid .noteText,
-.theme-dark .mermaid g.note text,
 .theme-dark .mermaid .taskText,
 .theme-dark .mermaid .taskTextOutsideRight,
 .theme-dark .mermaid .taskTextOutsideLeft,
