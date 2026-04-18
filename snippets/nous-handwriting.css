@@ -8,12 +8,15 @@
      ---
 
    Turns a note into a manuscript page:
-     · English → Petit Formal Script (17th-century italic feel,
-       echoing secretary-hand manuscripts) with Parisienne for
-       chapter headings
-     · Chinese → Ma Shan Zheng (毛笔手写) / 行楷 / 楷体
-     · Code blocks, tables, callouts, math revert to the base
-       Nous typography so they remain legible
+     · English → Italianno (19th-c. English copperplate — thin,
+       pointed, more ornate than Petit Formal's rounded secretary
+       hand) with Parisienne for chapter headings
+     · Chinese → Xingkai SC (行楷) / Kaiti SC / Ma Shan Zheng
+     · Code blocks, callouts, math revert to the base Nous
+       typography so they remain legible
+     · Tables get a dedicated handwriting treatment: dashed warm
+       rules, script headers in Italianno, serif body cells —
+       reads as a hand-ruled notebook, not a LaTeX booktabs report
      · Paragraphs get first-line indent, blockquotes become
        centered pull-quotes, the <hr> renders as a floral
        fleuron ornament (❦)
@@ -27,13 +30,14 @@
    "nous-handwriting".
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&family=Parisienne&family=Long+Cang&family=ZCOOL+XiaoWei&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Italianno&family=Parisienne&family=Pinyon+Script&family=Long+Cang&family=ZCOOL+XiaoWei&display=swap');
 
 /* ---------- Body typography ---------- */
 .markdown-preview-view.handwriting,
 .markdown-source-view.handwriting .cm-content {
   font-family:
-    "Petit Formal Script",
+    "Italianno",
+    "Pinyon Script",
     "Parisienne",
     "Xingkai SC",
     "STXingkai",
@@ -52,20 +56,21 @@
   color: #1c1c18;
 }
 
-/* Reading view — manuscript scale for presentation. Petit Formal
-   Script has a taller x-height than the base serif, so we sit at
-   ~1.08em rather than the 1.25em a neutral serif could take. */
+/* Reading view — manuscript scale. Italianno has a SMALLER x-height
+   than Petit Formal Script (thinner strokes, longer ascenders), so
+   it reads smaller at the same em; bump to 1.25em so body prose
+   stays comfortable. Line-height stays generous to make room for
+   the tall loops and swashes. */
 .markdown-preview-view.handwriting {
-  font-size: 1.08em;
-  line-height: 1.8;
+  font-size: 1.25em;
+  line-height: 1.75;
 }
 
-/* Edit mode — shrink back to body size so the script font doesn't
-   get in the way while you're typing. Reading view still shows the
-   full ceremonial size when you switch to preview. */
+/* Edit mode — shrink back toward body size so the script font
+   doesn't get in the way while you're typing. */
 .markdown-source-view.handwriting .cm-content {
-  font-size: 1em;
-  line-height: 1.75;
+  font-size: 1.05em;
+  line-height: 1.7;
 }
 .theme-dark .markdown-preview-view.handwriting,
 .theme-dark .markdown-source-view.handwriting .cm-content {
@@ -273,17 +278,68 @@
   text-indent: 0;
 }
 
-.markdown-preview-view.handwriting table,
-.markdown-preview-view.handwriting thead,
-.markdown-preview-view.handwriting tbody,
-.markdown-preview-view.handwriting tr,
-.markdown-preview-view.handwriting th,
-.markdown-preview-view.handwriting td {
+/* ---------- Tables: hand-ruled notebook aesthetic ----------
+   Base Nous tables use LaTeX booktabs (solid 2px rules, small-caps
+   headers). Drop that into a quill-and-parchment page and it reads
+   as a clipping from a journal article — wrong voice.
+   Handwriting tables get:
+     · no verticals (booktabs still)
+     · dashed warm rules top / bottom / after header (pencil feel)
+     · headers in Italianno script, one notch larger, terracotta —
+       reads as a section label, not as a sorted-table column head
+     · body cells in quiet serif at 0.95em, so names and numbers
+       stay readable (Italianno would turn "1929" into a puzzle)
+   !important on each override because the base booktabs rule uses
+   !important and we need to unseat it here. */
+.markdown-preview-view.handwriting table {
   font-family: var(--nous-font-serif-body);
-  font-size: 0.92em;
-  line-height: 1.4;
+  font-size: 0.95em !important;
+  line-height: 1.6;
   text-indent: 0;
   letter-spacing: normal;
+  margin: 1.75em auto;
+  border-collapse: collapse;
+  background: transparent;
+}
+.markdown-preview-view.handwriting thead,
+.markdown-preview-view.handwriting tbody,
+.markdown-preview-view.handwriting tr {
+  background: transparent;
+}
+.markdown-preview-view.handwriting thead {
+  border-top: 1.5px dashed var(--nous-ring-deep) !important;
+  border-bottom: 1px dashed var(--nous-ring-warm) !important;
+}
+.markdown-preview-view.handwriting tbody {
+  border-bottom: 1.5px dashed var(--nous-ring-deep) !important;
+}
+.markdown-preview-view.handwriting th {
+  font-family:
+    "Italianno",
+    "Pinyon Script",
+    "Parisienne",
+    "Xingkai SC",
+    "Kaiti SC",
+    cursive !important;
+  font-weight: 400 !important;
+  font-size: 1.55em !important;
+  font-variant-caps: normal !important;
+  letter-spacing: 0 !important;
+  color: var(--nous-terracotta) !important;
+  padding: 0.35em 1em !important;
+  text-align: left;
+  vertical-align: baseline;
+  border: none !important;
+  line-height: 1.2;
+}
+.markdown-preview-view.handwriting td {
+  font-family: var(--nous-font-serif-body) !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  padding: 0.4em 1em !important;
+  border: none !important;
+  vertical-align: baseline;
+  color: var(--text-normal);
 }
 
 .markdown-preview-view.handwriting .callout,
