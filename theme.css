@@ -2779,57 +2779,101 @@ textarea:focus,
    */
 
 .theme-dark .mermaid {
-  --mm-text:        #d5d2c6;  /* calm warm off-white — body text */
+  --mm-text:        #d5d2c6;  /* warm off-white — for text OUTSIDE boxes
+                                  (edge labels, pie title, legend, messages
+                                  sitting on the dark body) */
+  --mm-text-dark:   #2d2a24;  /* warm near-black — for text INSIDE cream
+                                  cards (node labels, entity names, etc.) */
   --mm-text-soft:   #a09b91;  /* one notch dimmer — captions, markers */
-  --mm-surface:     #30302e;  /* node card surface (= --nous-warm-sand) */
   --mm-surface-low: #1c1c1a;  /* cluster backdrop (subtle lift over body) */
-  --mm-card-light:  #e8e2d2;  /* warm cream — sequence actors / notes /
-                                  labelBox; stay light in both modes so
-                                  Mermaid's fill:black tspan-text reads
-                                  without us having to fight the cascade */
-  --mm-card-light-stroke: #a67b5b;  /* tan border for the light cards */
-  --mm-stroke:      #b25a3a;  /* muted terracotta — node border (dark cards) */
+  --mm-card-light:      #e8e2d2;  /* warm cream — the single card surface
+                                      used for EVERY node-ish box in dark
+                                      mode (flowchart / state / class / ER
+                                      / sequence actor / note / labelBox).
+                                      Keeping them all on the same cream
+                                      card removes every specificity war
+                                      with Mermaid's inline tspan/text
+                                      fill rules — black-ish text on
+                                      cream just works. */
+  --mm-card-light-alt:  #ddd7c7;  /* one step darker — ER attributeBoxEven
+                                      alternating row */
+  --mm-card-light-stroke: #a67b5b;  /* tan border */
   --mm-edge:        #7a7770;  /* edge line — warm medium gray */
   --mm-edge-strong: #9d9a92;  /* arrowheads — slightly brighter than edges */
   --mm-hairline:    #4d4c48;  /* dashed/subtle lines (actor line, ticks) */
   --mm-halo:        #141413;  /* page bg for text halo */
 }
 
-/* Node surfaces (flowchart / state / class / ER entity).
-   These are the "dark card" nodes — node text is painted via our own
-   `--mm-text` rule below, which DOES reach the text because Mermaid
-   doesn't inject a tspan-fill override for these diagram types. */
+/* Every diagram "box" in dark mode renders as a WARM CREAM CARD.
+   Covers:
+     - flowchart nodes       (.node rect / circle / ellipse / polygon / path)
+     - state-diagram states  (.state rect, g.stateGroup rect)
+     - class-diagram boxes   (g.classGroup rect — fill path still caught via
+                              .node path for the d3-drawn rounded-corner path)
+     - ER entity boxes       (.entityBox)
+     - sequence actors       (.actor, .labelBox)
+     - sequence/state notes  (.note)
+   One card color, one stroke color, one decision. All the black-ish
+   text Mermaid forces on tspan/text inside these boxes then reads
+   correctly without us having to out-specificity the #svgid-scoped
+   inline <style> rules. */
 .theme-dark .mermaid .node rect,
 .theme-dark .mermaid .node circle,
 .theme-dark .mermaid .node ellipse,
 .theme-dark .mermaid .node polygon,
 .theme-dark .mermaid .node path,
 .theme-dark .mermaid .state rect,
-.theme-dark .mermaid rect.entityBox,
-.theme-dark .mermaid .entityBox {
-  fill: var(--mm-surface) !important;
-  stroke: var(--mm-stroke) !important;
-  stroke-width: 1.2px !important;
-}
-
-/* Sequence actor + labelBox — Mermaid's inline <style> forces
-   `text.actor > tspan { fill: black; }` with a selector (#svgid class >
-   tspan, specificity 1,1,2) that we can only beat by specificity if we
-   add an id-class dance. Simpler: keep the actor BOX light so the
-   forced-black tspan text stays readable. Same treatment for labelBox
-   and note (Mermaid paints their tspan children black too). */
+.theme-dark .mermaid g.stateGroup rect,
+.theme-dark .mermaid g.classGroup rect,
 .theme-dark .mermaid .actor,
 .theme-dark .mermaid rect.actor,
 .theme-dark .mermaid .labelBox,
 .theme-dark .mermaid rect.labelBox,
 .theme-dark .mermaid .note,
-.theme-dark .mermaid rect.note {
+.theme-dark .mermaid rect.note,
+.theme-dark .mermaid rect.entityBox,
+.theme-dark .mermaid .entityBox,
+.theme-dark .mermaid rect.attributeBoxOdd,
+.theme-dark .mermaid .attributeBoxOdd {
   fill: var(--mm-card-light) !important;
   stroke: var(--mm-card-light-stroke) !important;
   stroke-width: 1.2px !important;
 }
 
-/* Cluster / subgraph — one step below nodes so nesting reads */
+/* ER attribute even rows — one step darker so alternating is legible */
+.theme-dark .mermaid rect.attributeBoxEven,
+.theme-dark .mermaid .attributeBoxEven {
+  fill: var(--mm-card-light-alt) !important;
+  stroke: var(--mm-card-light-stroke) !important;
+  stroke-width: 0.8px !important;
+}
+
+/* Text INSIDE cream cards — override Mermaid's various defaults
+   (#333, #131300, #9370DB) to one consistent warm near-black that
+   reads cleanly on cream without harsh pure black. */
+.theme-dark .mermaid .node text,
+.theme-dark .mermaid .node tspan,
+.theme-dark .mermaid .node foreignObject,
+.theme-dark .mermaid .node foreignObject div,
+.theme-dark .mermaid .node foreignObject span,
+.theme-dark .mermaid .node foreignObject p,
+.theme-dark .mermaid .nodeLabel,
+.theme-dark .mermaid .nodeLabel p,
+.theme-dark .mermaid g.stateGroup text,
+.theme-dark .mermaid g.stateGroup .state-title,
+.theme-dark .mermaid g.classGroup text,
+.theme-dark .mermaid .classTitle,
+.theme-dark .mermaid .entityLabel,
+.theme-dark .mermaid text.entityLabel,
+.theme-dark .mermaid .er text {
+  fill: var(--mm-text-dark) !important;
+  color: var(--mm-text-dark) !important;
+}
+
+/* Cluster / subgraph — still a dark-on-dark backdrop one step above
+   body so nested boxes read as contained. The cluster LABEL text,
+   however, sits on the dark backdrop, so it uses the light --mm-text
+   (handled further down in the text group). */
 .theme-dark .mermaid .cluster rect {
   fill: var(--mm-surface-low) !important;
   stroke: var(--mm-hairline) !important;
@@ -2870,30 +2914,15 @@ textarea:focus,
   stroke: var(--mm-hairline) !important;
 }
 
-/* Text — ON DARK CARDS (flowchart node labels, ER entity/attribute,
-   task text, pie title, legend, cluster). Paint warm off-white so it
-   reads against var(--mm-surface). Covers both <text> and tspan
-   children in case Mermaid wraps content in <tspan> — for flowchart
-   the tspan children inherit the parent fill, so this cascades.
-
-   NOT in this group: anything inside a LIGHT card (actor text,
-   labelText, loopText, noteText). Those tspan children get a
-   fill:black from Mermaid's inline <style> that we deliberately
-   leave alone — black-on-cream reads fine. Overriding them would
-   just start a specificity war we'd lose anyway. */
-.theme-dark .mermaid .node text,
-.theme-dark .mermaid .node text tspan,
-.theme-dark .mermaid .nodeLabel,
-.theme-dark .mermaid .node foreignObject,
-.theme-dark .mermaid .node foreignObject div,
-.theme-dark .mermaid .node foreignObject span,
+/* Text OUTSIDE boxes — sits directly on the dark page body, so it
+   uses the warm off-white. Covers edge labels, pie title & legend,
+   sequence messageText, gantt taskText, and cluster-label text
+   (cluster background is dark). Node/entity/state/class text is
+   handled separately above (on cream cards, uses --mm-text-dark). */
 .theme-dark .mermaid .messageText,
 .theme-dark .mermaid .taskText,
 .theme-dark .mermaid .taskTextOutsideRight,
 .theme-dark .mermaid .taskTextOutsideLeft,
-.theme-dark .mermaid .entityLabel,
-.theme-dark .mermaid text.entityLabel,
-.theme-dark .mermaid .er text,
 .theme-dark .mermaid .pieTitleText,
 .theme-dark .mermaid .legend text,
 .theme-dark .mermaid text.legend,
@@ -2941,15 +2970,10 @@ textarea:focus,
   stroke: var(--mm-hairline) !important;
 }
 
-/* ER attribute hairlines — dark mode slightly brighter than light */
-.theme-dark .mermaid rect.attributeBoxOdd,
-.theme-dark .mermaid rect.attributeBoxEven,
-.theme-dark .mermaid .attributeBoxOdd,
-.theme-dark .mermaid .attributeBoxEven {
-  fill: transparent !important;
-  stroke: var(--mm-hairline) !important;
-  stroke-width: 0.5px !important;
-}
+/* ER attribute rows in dark mode are handled in the cream-card group
+   above — odd rows get --mm-card-light, even rows --mm-card-light-alt,
+   so the alternation reads as a striped attribute table on the entity
+   card rather than as transparent dark strips punched through it. */
 
 /* Kill relationship-label rect in dark too */
 .theme-dark .mermaid rect.relationshipLabelBox,
