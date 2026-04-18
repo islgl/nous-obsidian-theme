@@ -2343,14 +2343,18 @@ textarea:focus,
 }
 
 /* --- Edge labels (text floating on connection lines) ---
-   Default Mermaid draws a solid rect behind each edge label so it
-   masks the line. Nous suppresses the rect — the label reads as prose
-   sitting atop the stroke, the way a booktabs caption sits atop a row. */
+   Default Mermaid draws a solid rect behind each edge label so the
+   text doesn't sit directly on the stroke. Nous drops the box — but
+   the text still has to stay readable where it crosses a line.
+   The trick: paint a halo in the page background color around every
+   glyph. For SVG <text> that's `paint-order: stroke` + a thin stroke
+   matching the page; for HTML labels rendered inside a foreignObject
+   it's a 4-way text-shadow. Result: no visible box, text floats clear
+   over the connector in both light and dark modes. */
 .mermaid .edgeLabel,
 .mermaid .edgeLabel rect,
 .mermaid .edgeLabel .labelBkg,
 .mermaid rect.labelBkg,
-.mermaid .flowchartTitleText + g rect.labelBkg,
 .mermaid g.edgeLabel rect,
 .mermaid .label-container {
   background: transparent !important;
@@ -2358,18 +2362,45 @@ textarea:focus,
   fill: transparent !important;
   stroke: none !important;
 }
+/* Text — SVG path: paint-order:stroke lays the stroke DOWN first,
+   then the fill on top, so the stroke becomes a halo behind each
+   glyph rather than an outline over it. */
+.mermaid .edgeLabel text,
+.mermaid g.edgeLabel text {
+  fill: var(--text-normal) !important;
+  font-family: var(--nous-font-serif-body) !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  paint-order: stroke fill;
+  stroke: var(--background-primary) !important;
+  stroke-width: 3px !important;
+  stroke-linejoin: round;
+}
+/* Text — HTML path (Mermaid uses foreignObject for CJK / complex
+   labels). paint-order doesn't apply here, so we fake the halo with
+   an 8-direction text-shadow in the page background color. */
 .mermaid .edgeLabel foreignObject,
 .mermaid .edgeLabel span,
 .mermaid .edgeLabel p,
-.mermaid .edgeLabel text {
+.mermaid g.edgeLabel foreignObject,
+.mermaid g.edgeLabel span,
+.mermaid g.edgeLabel p {
   background: transparent !important;
   background-color: transparent !important;
-  color: var(--text-muted) !important;
-  fill: var(--text-muted) !important;
+  color: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
-  font-size: 0.85em !important;
-  font-style: italic;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
   padding: 0 2px !important;
+  text-shadow:
+    1.5px 0 0 var(--background-primary),
+    -1.5px 0 0 var(--background-primary),
+    0 1.5px 0 var(--background-primary),
+    0 -1.5px 0 var(--background-primary),
+    1.5px 1.5px 0 var(--background-primary),
+    -1.5px -1.5px 0 var(--background-primary),
+    1.5px -1.5px 0 var(--background-primary),
+    -1.5px 1.5px 0 var(--background-primary);
 }
 
 /* --- Clusters / subgraphs --- */
@@ -2525,10 +2556,14 @@ textarea:focus,
 }
 .markdown-preview-view .mermaid .relationshipLabel,
 .mermaid text.relationshipLabel {
-  fill: var(--text-muted) !important;
+  fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
-  font-style: italic;
-  font-size: 0.85em !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  paint-order: stroke fill;
+  stroke: var(--background-primary) !important;
+  stroke-width: 3px !important;
+  stroke-linejoin: round;
 }
 /* ER cardinality markers (one / many / zero-or-one). Mermaid puts these
    in <defs><marker id="ONLY_ONE_…">. Without explicit overrides they
