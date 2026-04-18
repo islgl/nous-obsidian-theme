@@ -1,7 +1,13 @@
-# Nous — An Obsidian theme
+<p align="center">
+  <img src="assets/nous-mark.svg" width="96" alt="Nous">
+</p>
 
-> **Warm parchment, serif headlines, theorem-style callouts** —
-> Claude's editorial aesthetic fused with LaTeX academic typography.
+<h1 align="center">Nous — An Obsidian theme</h1>
+
+<p align="center">
+  <em>Warm parchment, serif headlines, theorem-style callouts —<br>
+  Claude's editorial aesthetic fused with LaTeX academic typography.</em>
+</p>
 
 Nous (νοῦς, *mind / intellect*) turns an Obsidian vault into a scholar's notebook: a parchment-toned canvas, a medium-weight serif headline voice, booktabs tables, theorem-like callouts, and per-note "paper" / "handwriting" modes you can flip on with a single frontmatter flag.
 
@@ -9,7 +15,33 @@ Nous (νοῦς, *mind / intellect*) turns an Obsidian vault into a scholar's no
 
 ## Preview
 
-*(Screenshot pending — see `docs/DESIGN.md` for the visual spec.)*
+<p align="center">
+  <img src="assets/screenshot-hero.png" width="820" alt="Nous base theme, reading view"><br>
+  <sub><em>Base theme — reading view, light.</em></sub>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshot-dark.png" alt="Dark mode"><br>
+      <sub><em>Dark mode — same warm discipline, near-black surface.</em></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshot-paper.png" alt="Paper mode"><br>
+      <sub><em><code>cssclasses: [paper]</code> — numbered §, drop cap, justify.</em></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshot-handwriting.png" alt="Handwriting mode"><br>
+      <sub><em><code>cssclasses: [handwriting]</code> — script body, ❦ fleuron.</em></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshot-callouts.png" alt="Callout gallery"><br>
+      <sub><em>Built-in callouts — warm palette, serif labels.</em></sub>
+    </td>
+  </tr>
+</table>
 
 ---
 

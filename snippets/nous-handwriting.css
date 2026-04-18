@@ -52,10 +52,12 @@
   color: #1c1c18;
 }
 
-/* Reading view — full manuscript scale for presentation. */
+/* Reading view — manuscript scale for presentation. Petit Formal
+   Script has a taller x-height than the base serif, so we sit at
+   ~1.08em rather than the 1.25em a neutral serif could take. */
 .markdown-preview-view.handwriting {
-  font-size: 1.25em;
-  line-height: 1.95;
+  font-size: 1.08em;
+  line-height: 1.8;
 }
 
 /* Edit mode — shrink back to body size so the script font doesn't
