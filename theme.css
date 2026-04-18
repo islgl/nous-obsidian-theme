@@ -2771,44 +2771,48 @@ textarea:focus,
    */
 
 .theme-dark .mermaid {
-  --mm-text:        #d5d2c6;  /* warm off-white — for text OUTSIDE boxes
-                                  (edge labels, pie title, legend, messages
-                                  sitting on the dark body) */
-  --mm-text-dark:   #2d2a24;  /* warm near-black — for text INSIDE cream
-                                  cards (node labels, entity names, etc.) */
-  --mm-text-soft:   #a09b91;  /* one notch dimmer — captions, markers */
+  --mm-text:        #f5f4ed;  /* bright warm white — for all free text in
+                                  dark mode (edge labels, pie title,
+                                  legend, messages, task bars, AND text
+                                  inside terracotta cards). Matches the
+                                  theme's text-normal so the diagram
+                                  text reads like the note prose. */
+  --mm-text-dark:   #2d2a24;  /* warm near-black — for text inside the
+                                  cream sequence cards (actor, note,
+                                  labelBox); Mermaid forces fill:black
+                                  on their tspans via an #svgid-scoped
+                                  rule we can't beat, so we keep those
+                                  cards light and let black read. */
+  --mm-text-soft:   #c5c2b6;  /* one notch dimmer — markers, secondary */
   --mm-surface-low: #1c1c1a;  /* cluster backdrop (subtle lift over body) */
-  --mm-card-light:      #e8e2d2;  /* warm cream — the single card surface
-                                      used for EVERY node-ish box in dark
-                                      mode (flowchart / state / class / ER
-                                      / sequence actor / note / labelBox).
-                                      Keeping them all on the same cream
-                                      card removes every specificity war
-                                      with Mermaid's inline tspan/text
-                                      fill rules — black-ish text on
-                                      cream just works. */
-  --mm-card-light-alt:  #ddd7c7;  /* one step darker — ER attributeBoxEven
-                                      alternating row */
-  --mm-card-light-stroke: #a67b5b;  /* tan border */
+  --mm-card-terracotta:        #c96442;  /* brand terracotta — primary
+                                              card surface for flowchart
+                                              nodes, states, class boxes,
+                                              ER entities. White text on
+                                              it reads at ~4.5:1. */
+  --mm-card-terracotta-stroke: #8f4a31;  /* rust — one step darker for
+                                              the card border */
+  --mm-card-terracotta-alt:    #b25a3a;  /* muted terracotta — ER
+                                              attributeBoxEven row */
+  --mm-card-light:      #e8e2d2;  /* warm cream — reserved for SEQUENCE
+                                      actor / note / labelBox only. Those
+                                      three element types get tspan-black
+                                      forced by Mermaid at a specificity
+                                      we can't override from external
+                                      CSS, so we keep their cards light
+                                      and let the forced-black text read. */
+  --mm-card-light-stroke: #a67b5b;  /* tan border for the cream cards */
   --mm-edge:        #7a7770;  /* edge line — warm medium gray */
   --mm-edge-strong: #9d9a92;  /* arrowheads — slightly brighter than edges */
   --mm-hairline:    #4d4c48;  /* dashed/subtle lines (actor line, ticks) */
   --mm-halo:        #141413;  /* page bg for text halo */
 }
 
-/* Every diagram "box" in dark mode renders as a WARM CREAM CARD.
-   Covers:
-     - flowchart nodes       (.node rect / circle / ellipse / polygon / path)
-     - state-diagram states  (.state rect, g.stateGroup rect)
-     - class-diagram boxes   (g.classGroup rect — fill path still caught via
-                              .node path for the d3-drawn rounded-corner path)
-     - ER entity boxes       (.entityBox)
-     - sequence actors       (.actor, .labelBox)
-     - sequence/state notes  (.note)
-   One card color, one stroke color, one decision. All the black-ish
-   text Mermaid forces on tspan/text inside these boxes then reads
-   correctly without us having to out-specificity the #svgid-scoped
-   inline <style> rules. */
+/* Primary dark-mode cards — terracotta. Covers flowchart nodes,
+   state-diagram states, class-diagram boxes, ER entities. Mermaid
+   doesn't force tspan-specific fills on these diagram types, so our
+   `--mm-text` white override below reaches the text and reads on
+   the terracotta fill at roughly 4.5:1 contrast. */
 .theme-dark .mermaid .node rect,
 .theme-dark .mermaid .node circle,
 .theme-dark .mermaid .node ellipse,
@@ -2817,32 +2821,48 @@ textarea:focus,
 .theme-dark .mermaid .state rect,
 .theme-dark .mermaid g.stateGroup rect,
 .theme-dark .mermaid g.classGroup rect,
+.theme-dark .mermaid rect.entityBox,
+.theme-dark .mermaid .entityBox,
+.theme-dark .mermaid rect.attributeBoxOdd,
+.theme-dark .mermaid .attributeBoxOdd {
+  fill: var(--mm-card-terracotta) !important;
+  stroke: var(--mm-card-terracotta-stroke) !important;
+  stroke-width: 1.2px !important;
+}
+
+/* ER attribute even rows — muted terracotta, creates striping */
+.theme-dark .mermaid rect.attributeBoxEven,
+.theme-dark .mermaid .attributeBoxEven {
+  fill: var(--mm-card-terracotta-alt) !important;
+  stroke: var(--mm-card-terracotta-stroke) !important;
+  stroke-width: 0.8px !important;
+}
+
+/* Sequence cards — STAY LIGHT cream. Mermaid forces
+     #svgid text.actor > tspan { fill: black }
+   on actor/labelText/noteText/loopText tspans at specificity (1,1,2)
+   — we can only beat that from a stylesheet if we use our own ID
+   selector, which we can't (the SVG id is regenerated each render).
+   Simpler: keep these three card types light so the forced-black
+   tspan text reads. Yes, that's a visual tradeoff — sequence actors
+   don't share the terracotta language — but the alternative (black
+   on terracotta, ~2.8:1) is worse. */
 .theme-dark .mermaid .actor,
 .theme-dark .mermaid rect.actor,
 .theme-dark .mermaid .labelBox,
 .theme-dark .mermaid rect.labelBox,
 .theme-dark .mermaid .note,
-.theme-dark .mermaid rect.note,
-.theme-dark .mermaid rect.entityBox,
-.theme-dark .mermaid .entityBox,
-.theme-dark .mermaid rect.attributeBoxOdd,
-.theme-dark .mermaid .attributeBoxOdd {
+.theme-dark .mermaid rect.note {
   fill: var(--mm-card-light) !important;
   stroke: var(--mm-card-light-stroke) !important;
   stroke-width: 1.2px !important;
 }
 
-/* ER attribute even rows — one step darker so alternating is legible */
-.theme-dark .mermaid rect.attributeBoxEven,
-.theme-dark .mermaid .attributeBoxEven {
-  fill: var(--mm-card-light-alt) !important;
-  stroke: var(--mm-card-light-stroke) !important;
-  stroke-width: 0.8px !important;
-}
-
-/* Text INSIDE cream cards — override Mermaid's various defaults
-   (#333, #131300, #9370DB) to one consistent warm near-black that
-   reads cleanly on cream without harsh pure black. */
+/* Text INSIDE terracotta cards — override Mermaid's various defaults
+   (#333, #131300, #9370DB) to the bright warm white so labels read
+   cleanly on terracotta. Explicitly NOT overriding text.actor /
+   labelText / noteText / loopText here — those live on cream cards
+   and keep Mermaid's forced-black per the comment above. */
 .theme-dark .mermaid .node text,
 .theme-dark .mermaid .node tspan,
 .theme-dark .mermaid .node foreignObject,
@@ -2858,8 +2878,8 @@ textarea:focus,
 .theme-dark .mermaid .entityLabel,
 .theme-dark .mermaid text.entityLabel,
 .theme-dark .mermaid .er text {
-  fill: var(--mm-text-dark) !important;
-  color: var(--mm-text-dark) !important;
+  fill: var(--mm-text) !important;
+  color: var(--mm-text) !important;
 }
 
 /* Cluster / subgraph — still a dark-on-dark backdrop one step above
