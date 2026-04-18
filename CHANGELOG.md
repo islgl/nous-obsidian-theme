@@ -9,6 +9,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ### Changed
 - Author display name updated from `lgl` to `shufflgl` in `manifest.json`, `LICENSE`, and README (the GitHub handle `islgl` — and therefore the repo URL and `authorUrl` — remain unchanged). `lgl` was the local shell username; `shufflgl` is the publishing identity.
 - README install section now leads with the community-store path (`Settings → Appearance → Browse themes → Nous`) and keeps the Releases-page manual install as a fallback for people who want a specific version or are running pre-catalog.
+- **CHANGELOG push hook exempts tag-only pushes** — the hook's rule ("CHANGELOG must differ from origin/main") made sense for branch pushes but mis-fired on `git push origin 1.0.0`, because by that point the CHANGELOG had already been pushed in a previous commit and the diff was therefore clean. A tag push only publishes a pointer to commits whose CHANGELOG was already gated when those commits landed, so it has no independent CHANGELOG requirement. Hook now reads the actual push command from its PreToolUse payload and short-circuits when either `--tags` is present or any whitespace-separated token resolves to an existing local tag (handles `git push origin 1.0.0`, `git push origin refs/tags/1.0.0`, `git push --tags`).
 
 ## [1.0.0] — 2026-04-18
 

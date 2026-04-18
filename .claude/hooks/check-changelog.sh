@@ -7,6 +7,12 @@
 # tolerates compound commands like `git add && git commit && git push`,
 # where the hook would otherwise run before the add/commit took effect.
 #
+# Exception: tag-only pushes skip the gate — `git push origin 1.0.0` or
+# `git push --tags` publishes a pointer to commits whose CHANGELOG was
+# already gated when those commits were pushed. Detected when either
+# (a) the command includes `--tags`, or (b) any whitespace-separated
+# token in the command resolves to an existing local tag.
+#
 # Comparison target, in priority order:
 #   1. origin/main   — the canonical main-branch pointer we actually push to
 #   2. @{u}          — the current branch's upstream (covers non-main branches)
@@ -17,6 +23,27 @@
 # push and surfaces the reason.
 
 set +e
+
+# Read the PreToolUse payload to inspect the actual push command.
+payload=$(cat)
+cmd=$(printf '%s' "$payload" | jq -r '.tool_input.command // ""')
+
+# Tag-only-push short-circuit.
+is_tag_push=false
+if printf '%s' "$cmd" | grep -Eq '(^|[[:space:]])--tags([[:space:]]|$)'; then
+  is_tag_push=true
+else
+  for tok in $cmd; do
+    if git rev-parse --verify "refs/tags/$tok" >/dev/null 2>&1; then
+      is_tag_push=true
+      break
+    fi
+  done
+fi
+
+if [ "$is_tag_push" = "true" ]; then
+  exit 0
+fi
 
 changelog="CHANGELOG.md"
 has_changelog=false
