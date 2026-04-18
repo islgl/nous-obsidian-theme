@@ -2698,16 +2698,32 @@ textarea:focus,
   stroke: var(--nous-slice-7) !important;
 }
 
-.mermaid .pieTitleText {
+.mermaid .pieTitleText,
+.mermaid text.pieTitleText {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-heading) !important;
   font-weight: 500 !important;
+  /* Halo in page background color — if anything upstream paints this
+     text a color that clashes with the body (Mermaid's default black
+     in some builds lands here on dark bodies), the halo preserves a
+     ring of background around every glyph so the title reads either
+     way. paint-order lays the stroke under the fill so it's a halo,
+     not an outline. */
+  paint-order: stroke fill;
+  stroke: var(--background-primary) !important;
+  stroke-width: 4px !important;
+  stroke-linejoin: round;
 }
 .mermaid .legend text,
-.mermaid text.legend {
+.mermaid text.legend,
+.mermaid g.legend text {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
   font-size: 0.9em !important;
+  paint-order: stroke fill;
+  stroke: var(--background-primary) !important;
+  stroke-width: 3px !important;
+  stroke-linejoin: round;
 }
 /* Percentage labels rendered inside slices — <text class="slice"> */
 .mermaid text.slice {
@@ -2953,6 +2969,20 @@ textarea:focus,
   stroke: var(--mm-halo) !important;
   stroke-width: 4px !important;
   stroke-linejoin: round;
+}
+
+/* Pie title + legend in dark mode — repeat with body.theme-dark
+   prefix to bump specificity one notch higher than anything a plugin
+   or snippet might introduce, and re-state the halo stroke color in
+   the dark-mode halo color (--mm-halo = #141413) so the ring blends
+   into the dark body. */
+body.theme-dark .mermaid .pieTitleText,
+body.theme-dark .mermaid text.pieTitleText,
+body.theme-dark .mermaid .legend text,
+body.theme-dark .mermaid text.legend,
+body.theme-dark .mermaid g.legend text {
+  fill: var(--mm-text) !important;
+  stroke: var(--mm-halo) !important;
 }
 .theme-dark .mermaid .edgeLabel foreignObject,
 .theme-dark .mermaid .edgeLabel span,
