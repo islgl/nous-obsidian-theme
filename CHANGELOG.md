@@ -12,6 +12,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - `screenshots/callouts.png` — correct callout gallery image (the previous file mislabeled as callouts was actually the tables + math shot; now filed as `tables.png`).
 - README badges — release, license, Obsidian version, light/dark modes, stars.
 - Explicit **Acknowledgments** section in README crediting Claude / Anthropic, the LaTeX tradition, and the Obsidian community.
+- **Dataview plugin coverage** (`theme.css` §19c) — TABLE queries inherit the booktabs rule system with small-caps headers and warm-tinted sort arrows; LIST queries get a terracotta `::marker` and serif body; TASK queries keep the body font; inline fields render as a small-caps key with a thin warm divider (replacing the default blue pill); inline queries render as italic terracotta; Dataview error boxes use a left warning rule on a transparent surface instead of the default solid-red block.
+- `CLAUDE.md` at repo root documenting project rules (CHANGELOG gate before every push, asset layout).
 
 ### Changed
 - README header now includes the inspiration statement up front and asset paths have been updated to the new `assets/logo/` and `assets/screenshots/` locations.

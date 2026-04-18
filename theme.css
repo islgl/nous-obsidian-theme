@@ -2434,6 +2434,149 @@ textarea:focus,
 }
 
 /* ============================================================
+   19c. Dataview plugin — booktabs tables, quiet inline fields
+   ============================================================ */
+
+/* Block wrappers — keep the same vertical rhythm as other blocks */
+.block-language-dataview,
+.block-language-dataviewjs {
+  margin: 1.25em 0;
+  font-family: var(--nous-font-serif-body);
+}
+
+/* TABLE queries. The generic `.markdown-preview-view table` rule in
+   section 10 already gives us booktabs; we re-anchor the essentials
+   on the Dataview-specific selector so the style survives the inline
+   classes Dataview injects (and so Live Preview source view renders
+   the same way). */
+.block-language-dataview table.dataview,
+.block-language-dataview table.table-view-table {
+  border-collapse: collapse;
+  margin: 0.25em 0;
+  font-family: var(--nous-font-serif-body);
+  font-size: 0.92em;
+  line-height: 1.4;
+  background: transparent;
+}
+.block-language-dataview table.dataview thead,
+.block-language-dataview table.table-view-table thead {
+  border-top: 2px solid var(--table-header-border-color);
+  border-bottom: 1px solid var(--table-header-border-color);
+  background: transparent;
+}
+.block-language-dataview table.dataview tbody,
+.block-language-dataview table.table-view-table tbody {
+  border-bottom: 2px solid var(--table-last-border-color);
+}
+.block-language-dataview table.dataview th,
+.block-language-dataview table.table-view-table th {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--table-header-color);
+  padding: 0.55em 0.95em;
+  text-align: left;
+  cursor: pointer;
+}
+.block-language-dataview table.dataview td,
+.block-language-dataview table.table-view-table td {
+  border: none;
+  padding: 0.55em 0.95em;
+  color: var(--table-text-color);
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  vertical-align: baseline;
+}
+/* Sort-arrow overlay on sortable headers — warm tint instead of the
+   default accent blue. */
+.block-language-dataview table.dataview th .table-view-sort-indicator,
+.block-language-dataview table.table-view-table th .table-view-sort-indicator {
+  color: var(--nous-terracotta);
+  opacity: 0.7;
+}
+
+/* LIST queries — a <ul>; keep the list density light. */
+.block-language-dataview > ul.dataview.list-view-ul {
+  padding-left: 1.25em;
+  margin: 0.5em 0;
+  font-family: var(--nous-font-serif-body);
+}
+.block-language-dataview > ul.dataview.list-view-ul > li {
+  margin: 0.2em 0;
+  line-height: 1.5;
+}
+.block-language-dataview > ul.dataview.list-view-ul > li::marker {
+  color: var(--nous-terracotta);
+}
+
+/* TASK queries — inherit the rest of the theme's task styling,
+   only fix the body font so it doesn't fall back to sans. */
+.block-language-dataview ul.contains-task-list,
+.block-language-dataview .dataview.task-list-item {
+  font-family: var(--nous-font-serif-body);
+}
+
+/* Inline fields (reading view) — "key:: value" rendered as a pair.
+   Default Dataview pill is a rounded blue chip; Nous replaces it with
+   a quiet small-caps label and a thin warm divider, so prose flows. */
+.markdown-rendered .dataview.inline-field {
+  font-family: var(--nous-font-serif-body);
+  font-size: 0.92em;
+  line-height: 1.45;
+  display: inline;
+}
+.markdown-rendered .dataview.inline-field-key {
+  background: transparent;
+  color: var(--text-faint);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  padding: 0 0.35em 0 0;
+  border: none;
+  border-radius: 0;
+}
+.markdown-rendered .dataview.inline-field-value {
+  background: transparent;
+  color: var(--text-normal);
+  padding: 0 0.35em;
+  border: none;
+  border-left: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+  font-variant-numeric: oldstyle-nums;
+}
+.markdown-rendered .dataview.inline-field-standalone-value {
+  background: transparent;
+  color: var(--text-normal);
+  border: none;
+  padding: 0;
+  font-variant-numeric: oldstyle-nums;
+}
+
+/* Inline queries — `= this.file.name` resolved in a sentence.
+   Italic terracotta, so the reader sees it as a reference mark. */
+.markdown-rendered .dataview.inline-query,
+.markdown-rendered span.dataview.dataview-inline-query {
+  font-style: italic;
+  color: var(--text-accent);
+}
+
+/* Error surfaces — Dataview can't resolve the query (typo, missing
+   field, JS exception). Keep legible: left rule in warning hue, no
+   heavy background, mono font so selectors stay readable. */
+.block-language-dataview .dataview.dataview-error-box,
+.block-language-dataviewjs .dataview.dataview-error-box {
+  background: transparent;
+  color: var(--text-error, #b23c24);
+  border: none;
+  border-left: 3px solid var(--text-error, #b23c24);
+  padding: 0.5em 0.75em;
+  margin: 0.5em 0;
+  font-family: var(--nous-font-mono);
+  font-size: 0.85em;
+  white-space: pre-wrap;
+  border-radius: 0;
+}
+
+/* ============================================================
    20. Scrollbars
    ============================================================ */
 ::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
