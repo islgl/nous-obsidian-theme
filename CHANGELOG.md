@@ -6,6 +6,12 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- **Mermaid dark-mode legibility** — nodes now lift to `--nous-warm-sand` in dark mode instead of `--background-primary-alt`, so node cards read as cards rather than as dark holes punched into an already-dark page. Cluster rects, sequence notes, and actor surfaces get the same treatment. Gantt grid lines switch to `--nous-ring-warm` in dark mode too.
+- **Mermaid edge-label boxes** — killed the solid rect Mermaid draws behind each edge label. The verb/condition now sits directly on the connector as italic muted prose (same family as the rest of the theme), matching the booktabs-caption aesthetic.
+- **Mermaid ER harmony** — entity cards now render on the parchment card palette (ivory light / warm-sand dark) with a terracotta header rule; entity titles use small-caps serif; attribute rows get a thin warm hairline instead of the default blue grid; the opaque rectangle behind relationship verbs is removed so the verb reads inline as italic muted text.
+- **Mermaid pie harmony** — slices now cycle through a seven-step warm palette (terracotta / tan / deep brown / light terracotta / ochre / olive / rust) via `path.pieN` and `path.slice:nth-of-type` fallbacks, replacing the default cool rotation. Percentage labels (`text.slice`) flip to ivory so they read on the saturated warm fills in both modes. Pie title switches to the serif heading face; the stroke between slices follows `--background-primary` for a clean parchment separation.
+
 ### Removed
 - `docs/` directory (including `DESIGN.md`) — the visual direction is now carried entirely by the theme + README; design-doc maintenance was a tax with no reader.
 - README "Design reference" section and the prominent "Inspired by Claude" disclaimer blockquote — the Acknowledgments section at the bottom still carries the credit and the not-affiliated note.

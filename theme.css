@@ -2253,6 +2253,20 @@ textarea:focus,
   text-align: center;
 }
 
+/* ----- Nous warm slice palette -----
+   Seven-step warm rotation reused by pie slices, ER attribute rows,
+   and anywhere Mermaid hands us indexed "series" classes. Derived
+   from the same parchment/terracotta world the theme runs on. */
+.mermaid {
+  --nous-slice-1: #c96442;  /* terracotta */
+  --nous-slice-2: #a67b5b;  /* tan */
+  --nous-slice-3: #6b5844;  /* deep brown */
+  --nous-slice-4: #d97757;  /* light terracotta */
+  --nous-slice-5: #b38a4c;  /* ochre */
+  --nous-slice-6: #8b7b54;  /* warm olive */
+  --nous-slice-7: #8f4a31;  /* rust */
+}
+
 /* --- Flowchart / state / class nodes --- */
 .mermaid .node rect,
 .mermaid .node circle,
@@ -2260,21 +2274,21 @@ textarea:focus,
 .mermaid .node polygon,
 .mermaid .node path,
 .mermaid .state rect,
-.mermaid .classDiagram .node rect,
-.mermaid .er .entityBox {
+.mermaid .classDiagram .node rect {
   fill: var(--nous-ivory) !important;
   stroke: var(--nous-terracotta) !important;
   stroke-width: 1.4px !important;
 }
+/* Dark mode — step up one surface level so node cards read as cards,
+   not as dark holes punched into an already-dark page. */
 .theme-dark .mermaid .node rect,
 .theme-dark .mermaid .node circle,
 .theme-dark .mermaid .node ellipse,
 .theme-dark .mermaid .node polygon,
 .theme-dark .mermaid .node path,
 .theme-dark .mermaid .state rect,
-.theme-dark .mermaid .classDiagram .node rect,
-.theme-dark .mermaid .er .entityBox {
-  fill: var(--background-primary-alt) !important;
+.theme-dark .mermaid .classDiagram .node rect {
+  fill: var(--nous-warm-sand) !important;
 }
 
 /* Node labels */
@@ -2307,7 +2321,10 @@ textarea:focus,
 }
 .theme-dark .mermaid .edgePath .path,
 .theme-dark .mermaid .flowchart-link,
-.theme-dark .mermaid .relation {
+.theme-dark .mermaid .relation,
+.theme-dark .mermaid line.messageLine0,
+.theme-dark .mermaid line.messageLine1,
+.theme-dark .mermaid .transition {
   stroke: var(--nous-dark-warm) !important;
 }
 .mermaid .arrowheadPath,
@@ -2319,26 +2336,40 @@ textarea:focus,
 }
 .theme-dark .mermaid .arrowheadPath,
 .theme-dark .mermaid marker path,
+.theme-dark .mermaid .marker,
 .theme-dark .mermaid defs marker path {
   fill: var(--nous-dark-warm) !important;
   stroke: var(--nous-dark-warm) !important;
 }
 
-/* --- Edge labels (text floating on connection lines) --- */
+/* --- Edge labels (text floating on connection lines) ---
+   Default Mermaid draws a solid rect behind each edge label so it
+   masks the line. Nous suppresses the rect — the label reads as prose
+   sitting atop the stroke, the way a booktabs caption sits atop a row. */
 .mermaid .edgeLabel,
-.mermaid .edgeLabel rect {
-  background: var(--background-primary) !important;
-  fill: var(--background-primary) !important;
-  color: var(--text-muted) !important;
+.mermaid .edgeLabel rect,
+.mermaid .edgeLabel .labelBkg,
+.mermaid rect.labelBkg,
+.mermaid .flowchartTitleText + g rect.labelBkg,
+.mermaid g.edgeLabel rect,
+.mermaid .label-container {
+  background: transparent !important;
+  background-color: transparent !important;
+  fill: transparent !important;
+  stroke: none !important;
 }
-.mermaid .edgeLabel,
 .mermaid .edgeLabel foreignObject,
 .mermaid .edgeLabel span,
-.mermaid .edgeLabel p {
+.mermaid .edgeLabel p,
+.mermaid .edgeLabel text {
+  background: transparent !important;
+  background-color: transparent !important;
   color: var(--text-muted) !important;
+  fill: var(--text-muted) !important;
   font-family: var(--nous-font-serif-body) !important;
   font-size: 0.85em !important;
-  padding: 0 4px !important;
+  font-style: italic;
+  padding: 0 2px !important;
 }
 
 /* --- Clusters / subgraphs --- */
@@ -2350,8 +2381,8 @@ textarea:focus,
   ry: 6px !important;
 }
 .theme-dark .mermaid .cluster rect {
-  fill: var(--background-secondary) !important;
-  stroke: var(--nous-ring-warm) !important;
+  fill: var(--nous-ivory) !important;
+  stroke: var(--nous-ring-deep) !important;
 }
 .mermaid .cluster text,
 .mermaid .cluster .label,
@@ -2374,12 +2405,16 @@ textarea:focus,
   stroke: var(--nous-terracotta) !important;
 }
 .theme-dark .mermaid .actor {
-  fill: var(--background-primary-alt) !important;
+  fill: var(--nous-warm-sand) !important;
 }
 .mermaid .actor-line,
 .mermaid line.actor-line {
   stroke: var(--nous-ring-warm) !important;
   stroke-dasharray: 3 3 !important;
+}
+.theme-dark .mermaid .actor-line,
+.theme-dark .mermaid line.actor-line {
+  stroke: var(--nous-ring-deep) !important;
 }
 .mermaid .messageText,
 .mermaid .labelText,
@@ -2393,6 +2428,10 @@ textarea:focus,
 .mermaid .note {
   fill: var(--nous-warm-sand) !important;
   stroke: var(--nous-ring-warm) !important;
+}
+.theme-dark .mermaid .note {
+  fill: var(--nous-ivory) !important;
+  stroke: var(--nous-ring-deep) !important;
 }
 .mermaid .noteText,
 .mermaid g.note text { fill: var(--text-normal) !important; }
@@ -2419,17 +2458,104 @@ textarea:focus,
   stroke: var(--nous-border-warm) !important;
 }
 .mermaid .grid path { stroke: var(--nous-border-warm) !important; }
+.theme-dark .mermaid .grid .tick line,
+.theme-dark .mermaid .grid path {
+  stroke: var(--nous-ring-warm) !important;
+}
 .mermaid .today {
   stroke: var(--nous-terracotta) !important;
   stroke-width: 2px !important;
 }
 
-/* --- Pie chart --- */
-.mermaid .pieCircle { stroke: var(--nous-parchment) !important; stroke-width: 2px !important; }
-.mermaid .pieTitleText,
-.mermaid .slice {
+/* --- Entity-relationship diagrams ---
+   Mermaid's default ER draws cool blue-gray boxes with black text
+   and a thick relationship rectangle behind the verb. Nous rebuilds
+   it as a warm "table" aesthetic: parchment entity card, terracotta
+   header rule, small-caps attribute rows, unboxed relationship verbs. */
+.mermaid .er .entityBox {
+  fill: var(--nous-ivory) !important;
+  stroke: var(--nous-terracotta) !important;
+  stroke-width: 1.4px !important;
+}
+.theme-dark .mermaid .er .entityBox {
+  fill: var(--nous-warm-sand) !important;
+}
+.mermaid .er .attributeBoxOdd,
+.mermaid .er .attributeBoxEven {
+  fill: transparent !important;
+  stroke: var(--nous-border-warm) !important;
+  stroke-width: 0.5px !important;
+}
+.theme-dark .mermaid .er .attributeBoxOdd,
+.theme-dark .mermaid .er .attributeBoxEven {
+  stroke: var(--nous-ring-warm) !important;
+}
+.mermaid .er .entityLabel {
+  fill: var(--text-normal) !important;
+  font-family: var(--nous-font-serif-heading) !important;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600 !important;
+}
+.mermaid .er text {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
+}
+.mermaid .er .relationshipLine {
+  stroke: var(--nous-charcoal-warm) !important;
+  fill: none !important;
+}
+.theme-dark .mermaid .er .relationshipLine {
+  stroke: var(--nous-dark-warm) !important;
+}
+/* Kill the default rect behind relationship labels — verbs read inline. */
+.mermaid .er .relationshipLabelBox,
+.mermaid .er rect.relationshipLabelBox {
+  fill: transparent !important;
+  stroke: none !important;
+  opacity: 1 !important;
+}
+.mermaid .er .relationshipLabel {
+  fill: var(--text-muted) !important;
+  font-family: var(--nous-font-serif-body) !important;
+  font-style: italic;
+  font-size: 0.85em !important;
+}
+
+/* --- Pie chart ---
+   Replace the default Mermaid palette with the Nous warm rotation so
+   slices sit in the same parchment world as the rest of the diagram.
+   Target indexed Mermaid classes (`.pie1` … `.pie12`) because slice
+   fills are applied via class name, not via the SVG `fill` attribute. */
+.mermaid .pieCircle {
+  stroke: var(--background-primary) !important;
+  stroke-width: 2px !important;
+}
+.mermaid path.pie1, .mermaid path.slice:nth-of-type(7n+1) { fill: var(--nous-slice-1) !important; }
+.mermaid path.pie2, .mermaid path.slice:nth-of-type(7n+2) { fill: var(--nous-slice-2) !important; }
+.mermaid path.pie3, .mermaid path.slice:nth-of-type(7n+3) { fill: var(--nous-slice-3) !important; }
+.mermaid path.pie4, .mermaid path.slice:nth-of-type(7n+4) { fill: var(--nous-slice-4) !important; }
+.mermaid path.pie5, .mermaid path.slice:nth-of-type(7n+5) { fill: var(--nous-slice-5) !important; }
+.mermaid path.pie6, .mermaid path.slice:nth-of-type(7n+6) { fill: var(--nous-slice-6) !important; }
+.mermaid path.pie7, .mermaid path.slice:nth-of-type(7n)   { fill: var(--nous-slice-7) !important; }
+.mermaid .pieTitleText {
+  fill: var(--text-normal) !important;
+  font-family: var(--nous-font-serif-heading) !important;
+  font-weight: 500 !important;
+}
+.mermaid .legend text,
+.mermaid text.legend {
+  fill: var(--text-normal) !important;
+  font-family: var(--nous-font-serif-body) !important;
+  font-size: 0.9em !important;
+}
+/* Percentage labels drawn inside slices are <text class="slice"> —
+   targeted with text.slice so we don't stomp on path.slice fills. */
+.mermaid text.slice {
+  fill: var(--nous-ivory) !important;
+  font-family: var(--nous-font-serif-body) !important;
+  font-size: 0.85em !important;
+  font-weight: 500 !important;
 }
 
 /* ============================================================
