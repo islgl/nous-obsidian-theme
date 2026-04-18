@@ -6,6 +6,16 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- `assets/` restructured into `assets/logo/` (brand marks, lockup, OG image) and `assets/screenshots/` (preview gallery).
+- `screenshots/tables.png` — booktabs + math preview added to README.
+- `screenshots/callouts.png` — correct callout gallery image (the previous file mislabeled as callouts was actually the tables + math shot; now filed as `tables.png`).
+- README badges — release, license, Obsidian version, light/dark modes, stars.
+- Explicit **Acknowledgments** section in README crediting Claude / Anthropic, the LaTeX tradition, and the Obsidian community.
+
+### Changed
+- README header now includes the inspiration statement up front and asset paths have been updated to the new `assets/logo/` and `assets/screenshots/` locations.
+
 ## [1.0.0-alpha.1] — 2026-04-18
 
 First public alpha.
@@ -24,7 +34,7 @@ First public alpha.
   - `nous-theorem-counters.css` — amsthm-style auto-numbering for `theorem` / `lemma` / `proposition` / `corollary`.
   - `nous-classical-figures.css` — OpenType old-style figures in body, tabular lining figures in tables.
 - **Mixed-language typography** — CJK `size-adjust` so Chinese lines align to Latin x-height in mixed headings.
-- **Brand assets** — mark, inverse mark, lockup, OG image (`assets/`).
+- **Brand assets** — mark, inverse mark, lockup, OG image (`assets/logo/`).
 - **Design spec** — `docs/DESIGN.md` with palette, type hierarchy, spacing, component principles.
 
 ### Known limitations

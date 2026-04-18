@@ -30,5 +30,5 @@ node_modules/
 # Release artifacts (attached to GitHub Releases, not tracked in repo)
 snippets.zip
 
-# Raw screenshot exports — canonical versions live in assets/
-screenshots/
+# Raw screenshot exports (root dir only) — canonical versions live in assets/screenshots/
+/screenshots/
