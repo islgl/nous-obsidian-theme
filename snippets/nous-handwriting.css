@@ -141,7 +141,7 @@
   font-family: "Parisienne", "Pinyon Script", serif;
   font-size: 0.75em;
   color: var(--nous-terracotta);
-  margin-right: 1em;
+  margin-right: 0.65em;
   vertical-align: middle;
   letter-spacing: 0;
 }
@@ -150,7 +150,7 @@
   content: "\273F";  /* ✿ — Black Rosette */
   font-family: "Parisienne", "Pinyon Script", serif;
   color: var(--nous-terracotta);
-  margin-right: 0.9em;
+  margin-right: 0.55em;
   font-size: 0.85em;
   opacity: 0.9;
 }
@@ -159,20 +159,19 @@
   content: "\2741";  /* ❁ — Eight-Petalled Outlined Black Florette */
   font-family: "Parisienne", "Pinyon Script", serif;
   color: var(--nous-stone-gray);
-  margin-right: 0.9em;
+  margin-right: 0.55em;
   font-size: 0.9em;
 }
 
-/* Belt-and-braces — push the chevron LEFT-side away from the flower
-   (margin-left on the chevron = gap between chevron and the element
-   to its left, which is the flower ::before). */
+/* Belt-and-braces — a hair of margin-left on the chevron so it never
+   kisses the flower, even at narrow reading widths. */
 .markdown-preview-view.handwriting h1 .heading-collapse-indicator,
 .markdown-preview-view.handwriting h2 .heading-collapse-indicator,
 .markdown-preview-view.handwriting h3 .heading-collapse-indicator,
 .markdown-preview-view.handwriting h4 .heading-collapse-indicator,
 .markdown-preview-view.handwriting h5 .heading-collapse-indicator,
 .markdown-preview-view.handwriting h6 .heading-collapse-indicator {
-  margin-left: 0.4em;
+  margin-left: 0.15em;
 }
 
 /* Inline title matches H1 */
