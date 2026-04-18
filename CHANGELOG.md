@@ -7,6 +7,14 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Changed
+- Author display name updated from `lgl` to `shufflgl` in `manifest.json`, `LICENSE`, and README (the GitHub handle `islgl` — and therefore the repo URL and `authorUrl` — remain unchanged). `lgl` was the local shell username; `shufflgl` is the publishing identity.
+- README install section now leads with the community-store path (`Settings → Appearance → Browse themes → Nous`) and keeps the Releases-page manual install as a fallback for people who want a specific version or are running pre-catalog.
+
+## [1.0.0] — 2026-04-18
+
+First stable release. Submitted to the Obsidian community theme catalog. All the work below accumulated on the `main` branch during the alpha window and ships together as 1.0.0. From here on, `[Unreleased]` is reserved for post-1.0.0 work.
+
+### Changed
 - **Handwriting mode tables** — the "revert to base serif" fallback was producing a LaTeX booktabs table inside a quill-and-parchment page, and the register clash was jarring (small-caps header row, 2px rules, tabular lining figures on top of Pinyon Script body text). Replaced with a ledger/journal style: Parisienne-script header in terracotta (ties into the H1 voice), hairline outer frame, dotted row dividers, subtle `rgba(230,221,195,0.28)` banding on even rows. Cells stay in serif body (`--nous-font-serif-body`) so tabular data is still legible — the change is around the *frame* and *header*, not the data cells. Header keeps a transparent background (a warm-sand fill block looked chunky against the already-warm parchment) and is anchored instead by a 1.5px terracotta-ring underline — the script header reads as an inscribed label rather than a UI banner.
 - **Paper mode heading collapse chevron** — applied the same left-margin park treatment used in handwriting mode: the fold-indicator chevron was sitting inline between the page edge and the `§ 1.1` section number, fighting for space with the numeric prefix on collapsible headings. `position: absolute; right: 100%` (with `position: relative` on h1–h6 to anchor the absolute child) pulls the chevron out into the page margin, so `§` ↔ title spacing is unchanged and the chevron no longer collides with the prompt glyph. H1 is centered in paper mode, so the heading's own positioning context is needed to keep the chevron left-aligned with the section number rather than drifting to some arbitrary ancestor's left edge.
 - **Handwriting mode heading ornament spacing** — the flower marks (❃ ✿ ❁) before H1/H2/H3 in reading view were crashing into Obsidian's fold-indicator chevron when a heading was collapsible. Two false starts on inline margins (opening the gap in the wrong direction, then in the right direction but at the cost of pushing the flower away from the heading text). Final fix pulls the chevron out of the heading's inline flow entirely — `position: absolute; right: 100%` parks it in the page margin just to the left of the heading. The flower returns to its original tight `margin-right` (0.55em / 0.5em / 0.55em for H1/H2/H3), so flower↔title spacing is exactly as it was before the collision ever existed, and the chevron no longer shares a text run with the ornament.
@@ -76,5 +84,6 @@ First public alpha.
 - Variable names may be renamed before 1.0.0.
 - Not yet submitted to the Obsidian community theme catalog — install manually from the Releases page.
 
-[Unreleased]: https://github.com/islgl/nous-obsidian-theme/compare/v1.0.0-alpha.1...HEAD
+[Unreleased]: https://github.com/islgl/nous-obsidian-theme/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/islgl/nous-obsidian-theme/compare/v1.0.0-alpha.1...1.0.0
 [1.0.0-alpha.1]: https://github.com/islgl/nous-obsidian-theme/releases/tag/v1.0.0-alpha.1

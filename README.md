@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/islgl/nous-obsidian-theme/releases"><img src="https://img.shields.io/github/v/release/islgl/nous-obsidian-theme?include_prereleases&display_name=tag&label=release&color=c96442" alt="Latest release"></a>
+  <a href="https://github.com/islgl/nous-obsidian-theme/releases"><img src="https://img.shields.io/github/v/release/islgl/nous-obsidian-theme?display_name=tag&label=release&color=c96442" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/islgl/nous-obsidian-theme?color=a67b5b&labelColor=3d2f22" alt="License"></a>
   <img src="https://img.shields.io/badge/Obsidian-v1.4.0%2B-6b5844?labelColor=141413" alt="Obsidian 1.4.0+">
   <img src="https://img.shields.io/badge/modes-light%20%7C%20dark-d97757?labelColor=8d5a3c" alt="Light and dark modes">
@@ -55,15 +55,18 @@ Nous (νοῦς, *mind / intellect*) turns an Obsidian vault into a scholar's no
 
 ## Install
 
-### Manual (recommended while alpha)
+### Community store (recommended)
 
-1. Download the latest release of `theme.css` and `manifest.json` from the [Releases page](https://github.com/islgl/nous-obsidian-theme/releases).
+1. Obsidian → **Settings → Appearance → Themes → Manage** → search **Nous** → **Install** → **Use**.
+2. You'll get automatic updates whenever a new version is released.
+
+> If you don't see Nous yet, the community PR may still be in review — use the manual path below in the meantime.
+
+### Manual
+
+1. Download `theme.css` and `manifest.json` from the [latest release](https://github.com/islgl/nous-obsidian-theme/releases).
 2. Put them in `YourVault/.obsidian/themes/Nous/`.
 3. Obsidian → **Settings → Appearance → Themes → Nous**.
-
-### Community store
-
-Not yet listed. Will apply once the theme stabilizes past alpha.
 
 ---
 
@@ -161,13 +164,13 @@ Nous loads via Google Fonts. If you're offline or prefer different faces, set yo
 
 ---
 
-## Alpha note
+## Roadmap
 
-`1.0.0-alpha.1` is the first public release. It's already usable as a daily-driver theme, but expect:
+`1.0.0` is the first stable release — daily-driver-ready, palette locked, variable names stable. Post-1.0 work will focus on:
 
-- Variable renames before 1.0
-- More `cssclasses` modes
-- Fuller coverage of third-party plugin UIs (Dataview, Kanban, Advanced Tables, etc.)
+- More `cssclasses` jackets (e.g. `[slides]`, `[manuscript]`)
+- Fuller coverage of third-party plugin UIs (Kanban, Advanced Tables, Excalidraw, Canvas)
+- Accessibility audits and high-contrast variants
 
 File issues with screenshots and the offending element's selector (Cmd+Option+I → Inspect) if you hit something.
 
@@ -183,4 +186,4 @@ File issues with screenshots and the offending element's selector (Cmd+Option+I 
 
 ## License
 
-[MIT](LICENSE) © 2026 [lgl](https://github.com/islgl)
+[MIT](LICENSE) © 2026 [shufflgl](https://github.com/islgl)
