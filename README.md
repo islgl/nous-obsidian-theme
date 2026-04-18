@@ -11,52 +11,49 @@
 
 <p align="center">
   <a href="https://github.com/islgl/nous-obsidian-theme/releases"><img src="https://img.shields.io/github/v/release/islgl/nous-obsidian-theme?include_prereleases&display_name=tag&label=release&color=c96442" alt="Latest release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/islgl/nous-obsidian-theme?color=c96442" alt="License"></a>
-  <img src="https://img.shields.io/badge/Obsidian-v1.4.0%2B-8d5a3c" alt="Obsidian 1.4.0+">
-  <img src="https://img.shields.io/badge/modes-light%20%7C%20dark-c96442" alt="Light and dark">
-  <a href="https://github.com/islgl/nous-obsidian-theme/stargazers"><img src="https://img.shields.io/github/stars/islgl/nous-obsidian-theme?style=flat&color=c96442" alt="GitHub stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/islgl/nous-obsidian-theme?color=a67b5b&labelColor=3d2f22" alt="License"></a>
+  <img src="https://img.shields.io/badge/Obsidian-v1.4.0%2B-6b5844?labelColor=141413" alt="Obsidian 1.4.0+">
+  <img src="https://img.shields.io/badge/modes-light%20%7C%20dark-d97757?labelColor=8d5a3c" alt="Light and dark modes">
 </p>
 
 Nous (νοῦς, *mind / intellect*) turns an Obsidian vault into a scholar's notebook: a parchment-toned canvas, a medium-weight serif headline voice, booktabs tables, theorem-like callouts, and per-note "paper" / "handwriting" modes you can flip on with a single frontmatter flag.
-
-> **Inspired by [Claude](https://claude.com).** Nous is an independent homage to Claude's web-reading aesthetic — the warm parchment canvas, terracotta accents, yellow-brown gray undertones, ring-shadow depth system, and quiet serif voice are all interpretations of that interface, ported into the idioms of an Obsidian vault. Nous is not affiliated with or endorsed by Anthropic.
 
 ---
 
 ## Preview
 
-<p align="center">
-  <img src="assets/screenshots/hero.png" width="820" alt="Nous base theme, reading view"><br>
-  <sub><em>Base theme — reading view, light.</em></sub>
-</p>
-
 <table>
   <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/hero.png" alt="Base theme, light"><br>
+      <sub><em>Base theme — reading view, light.</em></sub>
+    </td>
     <td align="center" width="50%">
       <img src="assets/screenshots/dark.png" alt="Dark mode"><br>
       <sub><em>Dark mode — same warm discipline, near-black surface.</em></sub>
     </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <img src="assets/screenshots/paper.png" alt="Paper mode"><br>
       <sub><em><code>cssclasses: [paper]</code> — numbered §, drop cap, justify.</em></sub>
     </td>
-  </tr>
-  <tr>
     <td align="center" width="50%">
       <img src="assets/screenshots/handwriting.png" alt="Handwriting mode"><br>
       <sub><em><code>cssclasses: [handwriting]</code> — script body, ❦ fleuron.</em></sub>
     </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <img src="assets/screenshots/callouts.png" alt="Callout gallery"><br>
       <sub><em>Built-in callouts — warm palette, serif labels.</em></sub>
     </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/tables.png" alt="Booktabs tables and math"><br>
+      <sub><em>Booktabs tables and display math — LaTeX-style rules.</em></sub>
+    </td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="assets/screenshots/tables.png" width="720" alt="Booktabs tables and math"><br>
-  <sub><em>Booktabs tables and inline / display math — LaTeX-style rules, old-style figures in body, tabular lining figures in tables.</em></sub>
-</p>
 
 ---
 
@@ -177,12 +174,6 @@ Nous loads via Google Fonts. If you're offline or prefer different faces, set yo
 - Fuller coverage of third-party plugin UIs (Dataview, Kanban, Advanced Tables, etc.)
 
 File issues with screenshots and the offending element's selector (Cmd+Option+I → Inspect) if you hit something.
-
----
-
-## Design reference
-
-The full visual spec lives at [`docs/DESIGN.md`](docs/DESIGN.md) — palette, type hierarchy, spacing, component principles. The spec was derived from Claude's web design and annotated for Obsidian porting.
 
 ---
 

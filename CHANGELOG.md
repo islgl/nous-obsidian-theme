@@ -6,6 +6,15 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+- `docs/` directory (including `DESIGN.md`) — the visual direction is now carried entirely by the theme + README; design-doc maintenance was a tax with no reader.
+- README "Design reference" section and the prominent "Inspired by Claude" disclaimer blockquote — the Acknowledgments section at the bottom still carries the credit and the not-affiliated note.
+- GitHub stars badge — the badge row reads cleaner without it.
+
+### Changed
+- README badge row recolored with a warmer spread (terracotta / tan / deep brown / light terracotta) instead of one flat terracotta.
+- README preview is now a single 2×3 table of all six screenshots (hero, dark, paper, handwriting, callouts, tables), dropping the split hero + grid + tables-below layout.
+
 ### Added
 - `assets/` restructured into `assets/logo/` (brand marks, lockup, OG image) and `assets/screenshots/` (preview gallery).
 - `screenshots/tables.png` — booktabs + math preview added to README.
@@ -38,7 +47,6 @@ First public alpha.
   - `nous-classical-figures.css` — OpenType old-style figures in body, tabular lining figures in tables.
 - **Mixed-language typography** — CJK `size-adjust` so Chinese lines align to Latin x-height in mixed headings.
 - **Brand assets** — mark, inverse mark, lockup, OG image (`assets/logo/`).
-- **Design spec** — `docs/DESIGN.md` with palette, type hierarchy, spacing, component principles.
 
 ### Known limitations
 - Third-party plugin UIs (Dataview, Kanban, Advanced Tables, etc.) are not yet fully covered.
