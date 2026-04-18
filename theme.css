@@ -2612,7 +2612,8 @@ textarea:focus,
   font-weight: 500 !important;
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 4px !important;
+  stroke-width: 2.5px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 /* ER cardinality markers (one / many / zero-or-one). Mermaid puts these
