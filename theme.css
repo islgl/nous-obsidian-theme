@@ -2395,7 +2395,11 @@ textarea:focus,
 }
 /* Text — SVG path: paint-order:stroke lays the stroke DOWN first,
    then the fill on top, so the stroke becomes a halo behind each
-   glyph rather than an outline over it. */
+   glyph rather than an outline over it. 2.5px keeps the halo wide
+   enough to clear a 1.4px connector without creating visible blobs
+   on serif terminals or on the dot of "i". stroke-linecap: round +
+   stroke-linejoin: round soften the corners so there are no sharp
+   black dots where stroke segments meet. */
 .mermaid .edgeLabel text,
 .mermaid g.edgeLabel text {
   fill: var(--text-normal) !important;
@@ -2404,12 +2408,15 @@ textarea:focus,
   font-weight: 500 !important;
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 4px !important;
+  stroke-width: 2.5px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 /* Text — HTML path (Mermaid uses foreignObject for CJK / complex
    labels). paint-order doesn't apply here, so we fake the halo with
-   an 8-direction text-shadow in the page background color. */
+   an 8-direction text-shadow in the page background color. 1.5px
+   offsets avoid the chunky-double-image effect that 2px can produce
+   on small glyphs. */
 .mermaid .edgeLabel foreignObject,
 .mermaid .edgeLabel span,
 .mermaid .edgeLabel p,
@@ -2424,14 +2431,14 @@ textarea:focus,
   font-weight: 500 !important;
   padding: 0 2px !important;
   text-shadow:
-    2px 0 0 var(--background-primary),
-    -2px 0 0 var(--background-primary),
-    0 2px 0 var(--background-primary),
-    0 -2px 0 var(--background-primary),
-    2px 2px 0 var(--background-primary),
-    -2px -2px 0 var(--background-primary),
-    2px -2px 0 var(--background-primary),
-    -2px 2px 0 var(--background-primary);
+    1.5px 0 0 var(--background-primary),
+    -1.5px 0 0 var(--background-primary),
+    0 1.5px 0 var(--background-primary),
+    0 -1.5px 0 var(--background-primary),
+    1.5px 1.5px 0 var(--background-primary),
+    -1.5px -1.5px 0 var(--background-primary),
+    1.5px -1.5px 0 var(--background-primary),
+    -1.5px 1.5px 0 var(--background-primary);
 }
 
 /* --- Clusters / subgraphs --- */
@@ -2497,7 +2504,8 @@ textarea:focus,
 .mermaid text.messageText {
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 4px !important;
+  stroke-width: 2.5px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 .mermaid .note {
@@ -2704,14 +2712,15 @@ textarea:focus,
   font-family: var(--nous-font-serif-heading) !important;
   font-weight: 500 !important;
   /* Halo in page background color — if anything upstream paints this
-     text a color that clashes with the body (Mermaid's default black
-     in some builds lands here on dark bodies), the halo preserves a
-     ring of background around every glyph so the title reads either
-     way. paint-order lays the stroke under the fill so it's a halo,
-     not an outline. */
+     text a color that clashes with the body, the halo preserves a
+     ring of background around every glyph. paint-order lays the
+     stroke under the fill so it's a halo, not an outline. Thin
+     stroke + round caps/joins avoids the black-dot artifacts that
+     wider strokes produce on serif terminals and "i" dots. */
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 4px !important;
+  stroke-width: 2.5px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 .mermaid .legend text,
@@ -2722,7 +2731,8 @@ textarea:focus,
   font-size: 0.9em !important;
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 3px !important;
+  stroke-width: 2px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 /* Percentage labels rendered inside slices — <text class="slice"> */
@@ -2967,7 +2977,8 @@ textarea:focus,
   fill: var(--mm-text) !important;
   paint-order: stroke fill;
   stroke: var(--mm-halo) !important;
-  stroke-width: 4px !important;
+  stroke-width: 2.5px !important;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 
@@ -2992,14 +3003,14 @@ body.theme-dark .mermaid g.legend text {
 .theme-dark .mermaid g.edgeLabel p {
   color: var(--mm-text) !important;
   text-shadow:
-    2px 0 0 var(--mm-halo),
-    -2px 0 0 var(--mm-halo),
-    0 2px 0 var(--mm-halo),
-    0 -2px 0 var(--mm-halo),
-    2px 2px 0 var(--mm-halo),
-    -2px -2px 0 var(--mm-halo),
-    2px -2px 0 var(--mm-halo),
-    -2px 2px 0 var(--mm-halo);
+    1.5px 0 0 var(--mm-halo),
+    -1.5px 0 0 var(--mm-halo),
+    0 1.5px 0 var(--mm-halo),
+    0 -1.5px 0 var(--mm-halo),
+    1.5px 1.5px 0 var(--mm-halo),
+    -1.5px -1.5px 0 var(--mm-halo),
+    1.5px -1.5px 0 var(--mm-halo),
+    -1.5px 1.5px 0 var(--mm-halo);
 }
 
 /* Percentage labels inside pie slices — stay dark so they read on
