@@ -12,8 +12,10 @@ Thumbs.db
 *.swo
 .vs/
 
-# Claude Code workspace files
-.claude/
+# Claude Code workspace files — ignore personal settings, keep shared config
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
 
 # Obsidian runtime / test vault artifacts
 .obsidian/workspace

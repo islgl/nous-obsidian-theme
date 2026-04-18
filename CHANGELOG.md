@@ -14,6 +14,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - Explicit **Acknowledgments** section in README crediting Claude / Anthropic, the LaTeX tradition, and the Obsidian community.
 - **Dataview plugin coverage** (`theme.css` §19c) — TABLE queries inherit the booktabs rule system with small-caps headers and warm-tinted sort arrows; LIST queries get a terracotta `::marker` and serif body; TASK queries keep the body font; inline fields render as a small-caps key with a thin warm divider (replacing the default blue pill); inline queries render as italic terracotta; Dataview error boxes use a left warning rule on a transparent surface instead of the default solid-red block.
 - `CLAUDE.md` at repo root documenting project rules (CHANGELOG gate before every push, asset layout).
+- **`.claude/settings.json` + `.claude/hooks/check-changelog.sh`** — committed Claude Code hook that enforces the CHANGELOG-before-push rule. A `PreToolUse` hook on `Bash` matching `git push*` checks that `CHANGELOG.md` is either staged or included in the commits ahead of the upstream; if neither, the push is blocked with a message pointing to `CLAUDE.md`. `.gitignore` is loosened so `.claude/settings.json` and `.claude/hooks/` are tracked while `.claude/settings.local.json` stays personal.
 
 ### Changed
 - README header now includes the inspiration statement up front and asset paths have been updated to the new `assets/logo/` and `assets/screenshots/` locations.
