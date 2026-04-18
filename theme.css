@@ -2577,14 +2577,49 @@ textarea:focus,
 .markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n),
 .mermaid svg path.pieCircle:nth-of-type(7n)   { fill: var(--nous-slice-7) !important; }
 
-/* Legend color chips — Mermaid emits <rect class="legend0">, .legend1… */
-.mermaid rect.legend0 { fill: var(--nous-slice-1) !important; }
-.mermaid rect.legend1 { fill: var(--nous-slice-2) !important; }
-.mermaid rect.legend2 { fill: var(--nous-slice-3) !important; }
-.mermaid rect.legend3 { fill: var(--nous-slice-4) !important; }
-.mermaid rect.legend4 { fill: var(--nous-slice-5) !important; }
-.mermaid rect.legend5 { fill: var(--nous-slice-6) !important; }
-.mermaid rect.legend6 { fill: var(--nous-slice-7) !important; }
+/* Outer circle — Mermaid draws a border ring around the pie. Keep
+   it transparent with a warm hairline so it doesn't fight the slices. */
+.mermaid circle.pieOuterCircle {
+  fill: transparent !important;
+  stroke: var(--nous-ring-warm) !important;
+  stroke-width: 1px !important;
+}
+
+/* Legend color chips — each swatch is <rect> inside <g class="legend">.
+   Mermaid doesn't put a class on the rect itself — color lives in an
+   inline `style="fill: rgb(...); stroke: rgb(...)"`. CSS `!important`
+   beats non-!important inline style, but we must override BOTH fill
+   and stroke (Mermaid sets both). Position is read from the parent
+   g.legend via nth-of-type — the wrapper's only <g> siblings are
+   legend items, so this counts cleanly. */
+.mermaid g.legend:nth-of-type(7n+1) > rect {
+  fill: var(--nous-slice-1) !important;
+  stroke: var(--nous-slice-1) !important;
+}
+.mermaid g.legend:nth-of-type(7n+2) > rect {
+  fill: var(--nous-slice-2) !important;
+  stroke: var(--nous-slice-2) !important;
+}
+.mermaid g.legend:nth-of-type(7n+3) > rect {
+  fill: var(--nous-slice-3) !important;
+  stroke: var(--nous-slice-3) !important;
+}
+.mermaid g.legend:nth-of-type(7n+4) > rect {
+  fill: var(--nous-slice-4) !important;
+  stroke: var(--nous-slice-4) !important;
+}
+.mermaid g.legend:nth-of-type(7n+5) > rect {
+  fill: var(--nous-slice-5) !important;
+  stroke: var(--nous-slice-5) !important;
+}
+.mermaid g.legend:nth-of-type(7n+6) > rect {
+  fill: var(--nous-slice-6) !important;
+  stroke: var(--nous-slice-6) !important;
+}
+.mermaid g.legend:nth-of-type(7n) > rect {
+  fill: var(--nous-slice-7) !important;
+  stroke: var(--nous-slice-7) !important;
+}
 
 .mermaid .pieTitleText {
   fill: var(--text-normal) !important;
