@@ -108,7 +108,7 @@ cssclasses:
 
 ### Handwriting mode
 
-- English body in Petit Formal Script / Parisienne
+- English body in Pinyon Script / Parisienne
 - Chinese body in Xingkai SC 行楷 / Kaiti SC 楷体 (thin, calligraphic)
 - H1 / H2 / H3 get flower ornaments (❃ ✿ ❁) in terracotta
 - Code blocks, tables, math blocks **revert to monospace / serif** so they stay legible
@@ -158,7 +158,7 @@ Nous loads via Google Fonts. If you're offline or prefer different faces, set yo
 - [EB Garamond](https://fonts.google.com/specimen/EB+Garamond) — Georg Duffner (fallback serif)
 - [Inter](https://fonts.google.com/specimen/Inter) — Rasmus Andersson (UI sans)
 - [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) — JetBrains (code)
-- [Petit Formal Script](https://fonts.google.com/specimen/Petit+Formal+Script) — Brownfox (handwriting body)
+- [Pinyon Script](https://fonts.google.com/specimen/Pinyon+Script) — Nicole Fally (handwriting body)
 - [Parisienne](https://fonts.google.com/specimen/Parisienne) — Astigmatic (handwriting headline)
 - [Long Cang](https://fonts.google.com/specimen/Long+Cang) — Chinese calligraphic fallback
 - **Songti SC** / **Kaiti SC** / **Xingkai SC** / **Hanzipen SC** — macOS system (Chinese)
