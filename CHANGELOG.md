@@ -11,6 +11,9 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - README install section now leads with the community-store path (`Settings → Appearance → Browse themes → Nous`) and keeps the Releases-page manual install as a fallback for people who want a specific version or are running pre-catalog.
 - **CHANGELOG push hook exempts tag-only pushes** — the hook's rule ("CHANGELOG must differ from origin/main") made sense for branch pushes but mis-fired on `git push origin 1.0.0`, because by that point the CHANGELOG had already been pushed in a previous commit and the diff was therefore clean. A tag push only publishes a pointer to commits whose CHANGELOG was already gated when those commits landed, so it has no independent CHANGELOG requirement. Hook now reads the actual push command from its PreToolUse payload and short-circuits when either `--tags` is present or any whitespace-separated token resolves to an existing local tag (handles `git push origin 1.0.0`, `git push origin refs/tags/1.0.0`, `git push --tags`).
 
+### Added
+- `assets/screenshots/catalog.png` — dedicated 512×288 16:9 screenshot for the Obsidian community theme browser. Derived from `hero.png` via center-crop-then-resize. The large `hero.png` (3720×1940) stays as the high-res README preview; `catalog.png` is referenced from `community-css-themes.json` so the theme browser's sanity-check bot (which rejects anything much bigger than 512×288) passes without touching the README layout.
+
 ## [1.0.0] — 2026-04-18
 
 First stable release. Submitted to the Obsidian community theme catalog. All the work below accumulated on the `main` branch during the alpha window and ships together as 1.0.0. From here on, `[Unreleased]` is reserved for post-1.0.0 work.
