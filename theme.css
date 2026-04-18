@@ -2255,8 +2255,14 @@ textarea:focus,
 
 /* ----- Nous warm slice palette -----
    Seven-step warm rotation reused by pie slices, ER attribute rows,
-   and anywhere Mermaid hands us indexed "series" classes. Derived
-   from the same parchment/terracotta world the theme runs on. */
+   and anywhere Mermaid hands us indexed "series" classes.
+
+   Two sets: the light-mode set lives in the parchment/terracotta
+   world (higher saturation, medium value — reads as ink on paper).
+   The dark-mode override lifts each hue up in value so the slice
+   pops off the near-black body — on #141413 you can't afford mid-
+   tone browns, they turn to mud. The dark rotation stays warm but
+   gains luminosity: coral, golden tan, apricot, antique gold. */
 .mermaid {
   --nous-slice-1: #c96442;  /* terracotta */
   --nous-slice-2: #a67b5b;  /* tan */
@@ -2265,6 +2271,15 @@ textarea:focus,
   --nous-slice-5: #b38a4c;  /* ochre */
   --nous-slice-6: #8b7b54;  /* warm olive */
   --nous-slice-7: #8f4a31;  /* rust */
+}
+.theme-dark .mermaid {
+  --nous-slice-1: #e08b6d;  /* coral — luminous terracotta */
+  --nous-slice-2: #d4a373;  /* golden tan */
+  --nous-slice-3: #b89878;  /* taupe — taps up from the light deep-brown */
+  --nous-slice-4: #eabc94;  /* apricot */
+  --nous-slice-5: #cca05c;  /* antique gold */
+  --nous-slice-6: #a8967a;  /* warm khaki */
+  --nous-slice-7: #c17454;  /* burnt sienna — lifted from light rust */
 }
 
 /* --- Flowchart / state / class nodes --- */
@@ -2461,7 +2476,7 @@ textarea:focus,
   stroke: var(--nous-ring-warm) !important;
 }
 .theme-dark .mermaid .note {
-  fill: var(--nous-ivory) !important;
+  fill: var(--nous-warm-sand) !important;
   stroke: var(--nous-ring-deep) !important;
 }
 .mermaid .noteText,
@@ -2478,6 +2493,13 @@ textarea:focus,
   stroke: var(--nous-terracotta) !important;
   fill: var(--nous-terracotta) !important;
   fill-opacity: 0.3 !important;
+}
+/* Dark mode — terracotta at 0.3 opacity on a near-black body reads as
+   dim salmon. Bump opacity so task bars register as filled warmth. */
+.theme-dark .mermaid .task,
+.theme-dark .mermaid rect.task0,
+.theme-dark .mermaid rect.task1 {
+  fill-opacity: 0.55 !important;
 }
 .mermaid .taskText,
 .mermaid .taskTextOutsideRight,
