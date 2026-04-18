@@ -1,0 +1,91 @@
+/* ============================================================
+   NOUS — Theorem Counters
+   Auto-numbers theorem-like callouts in reading view, in
+   true LaTeX amsthm tradition: Theorem 1, Theorem 2, …
+
+   Usage: write a callout with one of these types:
+     > [!theorem] An optional title
+     > [!lemma]
+     > [!proposition]
+     > [!corollary]
+     > [!definition]
+     > [!proof]
+     > [!remark]
+     > [!example]
+
+   Theorems, lemmas, propositions, and corollaries share a
+   counter (like \newtheorem{theorem}{Theorem}[section]).
+   Definitions, examples, and remarks each have their own.
+
+   Install: Settings → Appearance → CSS snippets → enable.
+   ============================================================ */
+
+.markdown-preview-view .markdown-preview-sizer {
+  counter-reset: theorem definition example remark;
+}
+
+/* Shared theorem-class counter */
+.callout[data-callout="theorem"],
+.callout[data-callout="lemma"],
+.callout[data-callout="proposition"],
+.callout[data-callout="corollary"] {
+  counter-increment: theorem;
+}
+.callout[data-callout="definition"] { counter-increment: definition; }
+.callout[data-callout="example"]    { counter-increment: example; }
+.callout[data-callout="remark"]     { counter-increment: remark; }
+
+/* Build the numbered label after the callout's own word */
+.callout[data-callout="theorem"] .callout-title-inner::before {
+  content: " " counter(theorem) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="lemma"] .callout-title-inner::before {
+  content: " " counter(theorem) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="proposition"] .callout-title-inner::before {
+  content: " " counter(theorem) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="corollary"] .callout-title-inner::before {
+  content: " " counter(theorem) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="definition"] .callout-title-inner::before {
+  content: " " counter(definition) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="example"] .callout-title-inner::before {
+  content: " " counter(example) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+.callout[data-callout="remark"] .callout-title-inner::before {
+  content: " " counter(remark) ". ";
+  font-variant-numeric: lining-nums;
+  font-weight: 600;
+}
+
+/* If the callout has no custom title, inject the label as the title */
+.callout[data-callout="theorem"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="lemma"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="proposition"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="corollary"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="definition"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="example"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner,
+.callout[data-callout="remark"]:not(:has(.callout-title-inner > :first-child)) .callout-title-inner {
+  display: inline;
+}
+
+/* End-of-proof tombstone (already set by theme, repeated here defensively) */
+.callout[data-callout="proof"] .callout-content > :last-child::after {
+  content: "  ∎";
+  color: var(--nous-charcoal-warm);
+  font-weight: 600;
+}

@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.vs/
+
+# Claude Code workspace files
+.claude/
+
+# Obsidian runtime / test vault artifacts
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspaces.json
+.obsidian/graph.json
+.obsidian/cache/
+.obsidian/plugins/*/data.json
+
+# OS / misc
+node_modules/
+*.log

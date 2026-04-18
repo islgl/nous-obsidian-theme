@@ -1,0 +1,333 @@
+/* ============================================================
+   NOUS — Handwriting Mode
+   Per-note opt-in. Add to YAML frontmatter:
+
+     ---
+     cssclasses:
+       - handwriting
+     ---
+
+   Turns a note into a manuscript page:
+     · English → Petit Formal Script (17th-century italic feel,
+       echoing secretary-hand manuscripts) with Parisienne for
+       chapter headings
+     · Chinese → Ma Shan Zheng (毛笔手写) / 行楷 / 楷体
+     · Code blocks, tables, callouts, math revert to the base
+       Nous typography so they remain legible
+     · Paragraphs get first-line indent, blockquotes become
+       centered pull-quotes, the <hr> renders as a floral
+       fleuron ornament (❦)
+
+   Meant for letters, poetry, reflective journal entries, or
+   anything you want to feel like you wrote it with a quill.
+   Works compose-ably with `paper` — stacking both gives you a
+   hand-scribed academic article.
+
+   Install: Settings → Appearance → CSS snippets → enable
+   "nous-handwriting".
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&family=Parisienne&family=Long+Cang&family=ZCOOL+XiaoWei&display=swap');
+
+/* ---------- Body typography ---------- */
+.markdown-preview-view.handwriting,
+.markdown-source-view.handwriting .cm-content {
+  font-family:
+    "Petit Formal Script",
+    "Parisienne",
+    "Xingkai SC",
+    "STXingkai",
+    "华文行楷",
+    "Kaiti SC",
+    "STKaiti",
+    "华文楷体",
+    "Hanzipen SC",
+    "Long Cang",
+    "ZCOOL XiaoWei",
+    "楷体",
+    KaiTi,
+    cursive,
+    serif;
+  letter-spacing: 0.01em;
+  color: #1c1c18;
+}
+
+/* Reading view — full manuscript scale for presentation. */
+.markdown-preview-view.handwriting {
+  font-size: 1.25em;
+  line-height: 1.95;
+}
+
+/* Edit mode — shrink back to body size so the script font doesn't
+   get in the way while you're typing. Reading view still shows the
+   full ceremonial size when you switch to preview. */
+.markdown-source-view.handwriting .cm-content {
+  font-size: 1em;
+  line-height: 1.75;
+}
+.theme-dark .markdown-preview-view.handwriting,
+.theme-dark .markdown-source-view.handwriting .cm-content {
+  color: #ece9dc;
+}
+
+/* First-line indent like a hand-copied page */
+.markdown-preview-view.handwriting p {
+  text-indent: 2em;
+  margin: 0.25em 0;
+  text-align: left;
+}
+.markdown-preview-view.handwriting p:first-of-type,
+.markdown-preview-view.handwriting h1 + p,
+.markdown-preview-view.handwriting h2 + p,
+.markdown-preview-view.handwriting h3 + p,
+.markdown-preview-view.handwriting h4 + p,
+.markdown-preview-view.handwriting blockquote + p,
+.markdown-preview-view.handwriting hr + p {
+  text-indent: 0;
+}
+
+/* ---------- Headings: more flourish ---------- */
+.markdown-preview-view.handwriting h1,
+.markdown-preview-view.handwriting h2,
+.markdown-preview-view.handwriting h3,
+.markdown-preview-view.handwriting h4,
+.markdown-preview-view.handwriting h5,
+.markdown-preview-view.handwriting h6 {
+  font-family:
+    "Parisienne",
+    "Petit Formal Script",
+    "Xingkai SC",
+    "STXingkai",
+    "华文行楷",
+    "Kaiti SC",
+    "STKaiti",
+    "华文楷体",
+    "Long Cang",
+    "ZCOOL XiaoWei",
+    "楷体",
+    cursive;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--nous-terracotta);
+  font-variant-caps: normal;
+}
+.markdown-preview-view.handwriting h1 {
+  font-size: 2.2em;
+  line-height: 1.15;
+  text-align: center;
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
+}
+.markdown-preview-view.handwriting h2 {
+  font-size: 1.8em;
+  line-height: 1.2;
+  margin-top: 1.4em;
+}
+.markdown-preview-view.handwriting h3 { font-size: 1.5em; }
+.markdown-preview-view.handwriting h4 { font-size: 1.3em; font-style: normal; }
+.markdown-preview-view.handwriting h5 { font-size: 1.15em; }
+.markdown-preview-view.handwriting h6 { font-size: 1.05em; }
+
+/* ---------- Flower ornaments before H1 / H2 / H3 ---------- */
+/* H1 — inline flower to the left of the (centered) title */
+.markdown-preview-view.handwriting h1::before {
+  content: "\2743";  /* ❃ — Heavy Teardrop-Spoked Pinwheel */
+  font-family: "Parisienne", "Petit Formal Script", serif;
+  font-size: 0.75em;
+  color: var(--nous-terracotta);
+  margin-right: 0.55em;
+  vertical-align: middle;
+  letter-spacing: 0;
+}
+/* H2 — left-aligned, decorated rosette inline */
+.markdown-preview-view.handwriting h2::before {
+  content: "\273F";  /* ✿ — Black Rosette */
+  font-family: "Parisienne", "Petit Formal Script", serif;
+  color: var(--nous-terracotta);
+  margin-right: 0.5em;
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+/* H3 — eight-petalled florette, softer stone gray */
+.markdown-preview-view.handwriting h3::before {
+  content: "\2741";  /* ❁ — Eight-Petalled Outlined Black Florette */
+  font-family: "Parisienne", "Petit Formal Script", serif;
+  color: var(--nous-stone-gray);
+  margin-right: 0.55em;
+  font-size: 0.9em;
+}
+
+/* Inline title matches H1 */
+.markdown-preview-view.handwriting .inline-title {
+  font-family:
+    "Parisienne",
+    "Xingkai SC",
+    "STXingkai",
+    "华文行楷",
+    "Kaiti SC",
+    "STKaiti",
+    "Long Cang",
+    cursive;
+  font-size: 2.5em;
+  text-align: center;
+  color: var(--nous-terracotta);
+  letter-spacing: 0;
+}
+
+/* ---------- Inline emphasis — softer, the script is already expressive ---------- */
+.markdown-preview-view.handwriting strong {
+  font-weight: 400;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.05em;
+}
+.markdown-preview-view.handwriting em {
+  font-style: normal;
+  letter-spacing: 0.04em;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--nous-ring-deep);
+}
+
+/* ---------- Blockquote: centered pull-quote with a raised open quote ---------- */
+.markdown-preview-view.handwriting blockquote {
+  border: none;
+  padding: 0.4em 2em;
+  text-align: center;
+  font-size: 1.1em;
+  margin: 1.5em auto;
+  max-width: 78%;
+  color: var(--nous-charcoal-warm);
+  background: transparent;
+  position: relative;
+}
+.theme-dark .markdown-preview-view.handwriting blockquote {
+  color: var(--nous-warm-silver);
+}
+.markdown-preview-view.handwriting blockquote::before {
+  content: "\201C";
+  position: absolute;
+  left: 0;
+  top: -0.1em;
+  font-size: 3.2em;
+  line-height: 1;
+  color: var(--nous-ring-deep);
+  font-family: "Parisienne", cursive;
+}
+.markdown-preview-view.handwriting blockquote p {
+  text-indent: 0;
+}
+
+/* ---------- Horizontal rule: floral fleuron ornament ---------- */
+.markdown-preview-view.handwriting hr {
+  border: none;
+  height: 1em;
+  margin: 2em auto;
+  width: 40%;
+  text-align: center;
+  overflow: visible;
+}
+.markdown-preview-view.handwriting hr::before {
+  content: "\007E  \2766  \007E";
+  color: var(--nous-terracotta);
+  font-size: 1.3em;
+  letter-spacing: 0.45em;
+  display: inline-block;
+  font-family: "Parisienne", serif;
+}
+
+/* ---------- Lists: skip the first-line indent and give markers their own space ---------- */
+.markdown-preview-view.handwriting ul,
+.markdown-preview-view.handwriting ol {
+  padding-left: 2em;
+}
+.markdown-preview-view.handwriting li {
+  text-indent: 0;
+  margin: 0.15em 0;
+}
+.markdown-preview-view.handwriting ul > li::marker {
+  color: var(--nous-terracotta);
+  font-size: 0.8em;
+}
+.markdown-preview-view.handwriting ol > li::marker {
+  color: var(--nous-olive-gray);
+  font-family:
+    "Petit Formal Script",
+    "Xingkai SC",
+    "Kaiti SC",
+    cursive;
+}
+
+/* ---------- Code, tables, callouts, math — revert to base Nous typography ----------
+   Script fonts destroy the monospace grid and make tabular data unreadable.
+   These elements opt back out of handwriting mode. */
+.markdown-preview-view.handwriting code,
+.markdown-preview-view.handwriting pre,
+.markdown-preview-view.handwriting pre code,
+.markdown-preview-view.handwriting :not(pre) > code {
+  font-family: var(--nous-font-mono);
+  font-size: 0.82em;
+  letter-spacing: -0.01em;
+  font-style: normal;
+  text-indent: 0;
+}
+
+.markdown-preview-view.handwriting table,
+.markdown-preview-view.handwriting thead,
+.markdown-preview-view.handwriting tbody,
+.markdown-preview-view.handwriting tr,
+.markdown-preview-view.handwriting th,
+.markdown-preview-view.handwriting td {
+  font-family: var(--nous-font-serif-body);
+  font-size: 0.92em;
+  line-height: 1.4;
+  text-indent: 0;
+  letter-spacing: normal;
+}
+
+.markdown-preview-view.handwriting .callout,
+.markdown-preview-view.handwriting .callout-title,
+.markdown-preview-view.handwriting .callout-content {
+  font-family: var(--nous-font-serif-body);
+  font-size: 1em;
+  line-height: 1.55;
+  letter-spacing: normal;
+}
+.markdown-preview-view.handwriting .callout-content p { text-indent: 0; }
+.markdown-preview-view.handwriting .callout-title,
+.markdown-preview-view.handwriting .callout-title-inner {
+  font-family: var(--nous-font-serif-heading);
+  font-variant-caps: all-small-caps;
+}
+
+.markdown-preview-view.handwriting .math,
+.markdown-preview-view.handwriting .MathJax,
+.markdown-preview-view.handwriting mjx-container,
+.markdown-preview-view.handwriting .katex {
+  font-family: revert;
+  text-indent: 0;
+}
+
+/* ---------- Internal / external links keep terracotta but match the script weight ---------- */
+.markdown-preview-view.handwriting a,
+.markdown-preview-view.handwriting .internal-link {
+  font-style: normal;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  border-bottom: none;
+}
+
+/* ---------- Slightly narrower column so long ascenders and descenders of the
+              script don't crash into the edges ---------- */
+.markdown-preview-view.handwriting {
+  --file-line-width: calc(var(--nous-reading-width) - 4ch);
+}
+
+/* ---------- Compose with paper: handwriting + paper yields a hand-scribed
+              academic article — drop cap in Parisienne, justified script body ---------- */
+.markdown-preview-view.paper.handwriting .markdown-preview-sizer > p:first-of-type::first-letter,
+.markdown-preview-view.paper.handwriting h1 + p::first-letter {
+  font-family: "Parisienne", "Xingkai SC", "Kaiti SC", cursive;
+  font-size: 4em;
+  line-height: 0.82;
+}

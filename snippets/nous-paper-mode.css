@@ -1,0 +1,174 @@
+/* ============================================================
+   NOUS — Paper Mode
+   Enable a full LaTeX-paper look on a single note by adding to
+   the note's YAML frontmatter:
+
+     ---
+     cssclasses:
+       - paper
+     ---
+
+   Turns that note into a scholar's article: drop cap, justified
+   body with hyphenation, numbered sections, italic figure
+   captions, generous page margins, and classical ornaments.
+
+   Install: Settings → Appearance → CSS snippets → enable
+   "nous-paper-mode". Works alongside the base Nous theme.
+   ============================================================ */
+
+.markdown-preview-view.paper,
+.markdown-source-view.paper .cm-content {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ---------- Body: justified, hyphenated ---------- */
+.markdown-preview-view.paper p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Paper column is a tighter version of the global reading width —
+   about 8 characters narrower, echoing a LaTeX article's text block.
+   Tracks --nous-reading-width so it stays in step when the user
+   adjusts reading width via Style Settings. */
+.markdown-preview-view.paper {
+  --file-line-width: calc(var(--nous-reading-width) - 8ch);
+  padding-top: 3rem;
+  padding-bottom: 6rem;
+}
+
+/* ---------- Drop cap on the opening paragraph ---------- */
+.markdown-preview-view.paper .markdown-preview-sizer > p:first-of-type::first-letter,
+.markdown-preview-view.paper h1 + p::first-letter {
+  font-family: var(--nous-font-serif-heading);
+  font-weight: 500;
+  font-size: 3.8em;
+  line-height: 0.85;
+  float: left;
+  padding: 0.12em 0.1em 0 0;
+  color: var(--nous-terracotta);
+  font-feature-settings: "onum" 0, "lnum" 1;
+}
+
+/* ---------- Counters for headings, figures, tables ---------- */
+.markdown-preview-view.paper .markdown-preview-sizer {
+  counter-reset: h1c figc tablec;
+}
+.markdown-preview-view.paper h1 {
+  counter-reset: h2c;
+  counter-increment: h1c;
+  text-align: center;
+  text-wrap: balance;
+  margin-top: 1.8em;
+  margin-bottom: 0.9em;
+}
+.markdown-preview-view.paper h2 {
+  counter-reset: h3c;
+  counter-increment: h2c;
+}
+.markdown-preview-view.paper h3 {
+  counter-reset: h4c;
+  counter-increment: h3c;
+}
+.markdown-preview-view.paper h4 {
+  counter-increment: h4c;
+}
+.markdown-preview-view.paper h1::before {
+  content: "§ " counter(h1c) ".";
+  color: var(--nous-terracotta);
+  font-variant-numeric: lining-nums;
+  margin-right: 0.7em;
+}
+.markdown-preview-view.paper h2::before {
+  content: "§ " counter(h1c) "." counter(h2c);
+  color: var(--nous-stone-gray);
+  font-variant-numeric: lining-nums;
+  margin-right: 0.6em;
+}
+.markdown-preview-view.paper h3::before {
+  content: "§ " counter(h1c) "." counter(h2c) "." counter(h3c);
+  color: var(--nous-stone-gray);
+  font-variant-numeric: lining-nums;
+  margin-right: 0.6em;
+}
+.markdown-preview-view.paper h4::before {
+  content: counter(h1c) "." counter(h2c) "." counter(h3c) "." counter(h4c);
+  color: var(--nous-stone-gray);
+  font-variant-numeric: lining-nums;
+  margin-right: 0.6em;
+}
+
+/* ---------- Figure caption — italic, centered, numbered ---------- */
+.markdown-preview-view.paper p > img {
+  counter-increment: figc;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.markdown-preview-view.paper img + em,
+.markdown-preview-view.paper p:has(> img) + p > em:only-child {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.92em;
+  margin-top: 0.4em;
+  font-family: var(--nous-font-serif-body);
+}
+.markdown-preview-view.paper p:has(> img) + p > em:only-child::before {
+  content: "Figure " counter(figc) ". ";
+  font-style: italic;
+  color: var(--nous-near-black);
+  font-weight: 500;
+}
+.theme-dark .markdown-preview-view.paper p:has(> img) + p > em:only-child::before {
+  color: var(--text-normal);
+}
+
+/* ---------- Table caption ---------- */
+.markdown-preview-view.paper table { counter-increment: tablec; }
+.markdown-preview-view.paper table + p > em:only-child::before {
+  content: "Table " counter(tablec) ". ";
+  font-style: italic;
+  color: var(--text-normal);
+  font-weight: 500;
+}
+.markdown-preview-view.paper table + p > em:only-child {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.92em;
+  margin: 0.4em 0 1.4em;
+}
+
+/* ---------- Classical ornamental rule ---------- */
+.markdown-preview-view.paper hr {
+  width: 28%;
+}
+.markdown-preview-view.paper hr::before {
+  content: "§";
+  font-family: var(--nous-font-serif-heading);
+  font-size: 1.4em;
+  color: var(--nous-stone-gray);
+  letter-spacing: 0;
+}
+
+/* ---------- Running "abstract" environment ---------- */
+.markdown-preview-view.paper h1 + blockquote,
+.markdown-preview-view.paper h1 + .callout[data-callout="abstract"] {
+  font-size: 0.96em;
+  line-height: 1.55;
+  color: var(--nous-charcoal-warm);
+  margin: 1.5em auto 2em;
+  max-width: 88%;
+  font-style: italic;
+  padding: 0 1em;
+  border-left: none;
+  border-top: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--divider-color);
+  background: transparent;
+}
+.theme-dark .markdown-preview-view.paper h1 + blockquote { color: var(--nous-warm-silver); }

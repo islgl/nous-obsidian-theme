@@ -1,0 +1,73 @@
+/* ============================================================
+   NOUS — Classical Figures
+   Enables OpenType features that make body text feel more
+   like a printed book: old-style figures (tabular numerals
+   drop below the baseline), small caps for ALLCAPS runs,
+   proper ligatures, kerning.
+
+   Tables keep lining figures with tabular widths (so columns
+   align) — this is the classic LaTeX default.
+
+   Install: Settings → Appearance → CSS snippets → enable.
+   ============================================================ */
+
+.markdown-preview-view,
+.markdown-source-view .cm-content {
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "dlig" 1,
+    "calt" 1,
+    "onum" 1,    /* old-style figures in body */
+    "lnum" 0,
+    "pnum" 1,    /* proportional numerals */
+    "tnum" 0,
+    "smcp" 0,
+    "c2sc" 0;
+}
+
+/* Tables: lining tabular figures — columns must align */
+.markdown-preview-view table,
+.markdown-source-view table,
+.markdown-preview-view .math,
+.markdown-source-view .math {
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "onum" 0,
+    "lnum" 1,
+    "pnum" 0,
+    "tnum" 1;
+}
+
+/* Heading numerals stay lining (they sit beside the letters) */
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.inline-title,
+.HyperMD-header,
+.cm-header {
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "dlig" 1,
+    "onum" 0,
+    "lnum" 1,
+    "pnum" 1,
+    "tnum" 0;
+}
+
+/* ALLCAPS runs (≥3 caps in a row) → small caps via OpenType.
+   Obsidian renders raw text so we rely on the OpenType c2sc
+   feature: any uppercase character gets converted to small
+   cap. Apply selectively to spans tagged <abbr> or wrapped in
+   an element with the `.smallcaps` class. */
+.markdown-preview-view abbr,
+.markdown-preview-view .smallcaps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
