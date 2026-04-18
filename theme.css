@@ -2550,10 +2550,6 @@ textarea:focus,
   stroke: var(--nous-terracotta) !important;
   stroke-width: 1.4px !important;
 }
-.theme-dark .markdown-preview-view .mermaid .entityBox,
-.theme-dark .mermaid rect.entityBox {
-  fill: var(--nous-warm-sand) !important;
-}
 .markdown-preview-view .mermaid .attributeBoxOdd,
 .markdown-preview-view .mermaid .attributeBoxEven,
 .mermaid rect.attributeBoxOdd,
@@ -2561,12 +2557,6 @@ textarea:focus,
   fill: transparent !important;
   stroke: var(--nous-border-warm) !important;
   stroke-width: 0.5px !important;
-}
-.theme-dark .markdown-preview-view .mermaid .attributeBoxOdd,
-.theme-dark .markdown-preview-view .mermaid .attributeBoxEven,
-.theme-dark .mermaid rect.attributeBoxOdd,
-.theme-dark .mermaid rect.attributeBoxEven {
-  stroke: var(--nous-ring-warm) !important;
 }
 .markdown-preview-view .mermaid .entityLabel,
 .mermaid text.entityLabel {
@@ -2581,10 +2571,12 @@ textarea:focus,
   stroke: var(--nous-charcoal-warm) !important;
   fill: none !important;
 }
-.theme-dark .markdown-preview-view .mermaid .relationshipLine,
-.theme-dark .mermaid path.relationshipLine {
-  stroke: var(--nous-dark-warm) !important;
-}
+/* Dark-mode overrides for ER live in the consolidated .theme-dark
+   .mermaid block at the bottom of this section. Previously we had
+   dark-mode rules scoped by `.markdown-preview-view` here (specificity
+   0,4,0) which outranked the consolidated block (specificity 0,3,0)
+   and silently won the cascade — entity boxes kept rendering dark
+   `--nous-warm-sand` instead of the cream card. Removed. */
 /* Kill the opaque rect Mermaid draws behind relationship verbs. */
 .markdown-preview-view .mermaid .relationshipLabelBox,
 .mermaid rect.relationshipLabelBox {
