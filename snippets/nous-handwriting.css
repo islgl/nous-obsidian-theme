@@ -131,13 +131,18 @@
 .markdown-preview-view.handwriting h5 { font-size: 1.15em; }
 .markdown-preview-view.handwriting h6 { font-size: 1.05em; }
 
-/* ---------- Flower ornaments before H1 / H2 / H3 ---------- */
+/* ---------- Flower ornaments before H1 / H2 / H3 ----------
+   margin-left opens a breathing gap between the ornament and whatever
+   Obsidian parks to its left on a collapsible heading (the ▶ / ▼
+   fold indicator in reading view). Without it the chevron and the
+   flower crash into each other. */
 /* H1 — inline flower to the left of the (centered) title */
 .markdown-preview-view.handwriting h1::before {
   content: "\2743";  /* ❃ — Heavy Teardrop-Spoked Pinwheel */
   font-family: "Parisienne", "Pinyon Script", serif;
   font-size: 0.75em;
   color: var(--nous-terracotta);
+  margin-left: 0.5em;
   margin-right: 0.55em;
   vertical-align: middle;
   letter-spacing: 0;
@@ -147,6 +152,7 @@
   content: "\273F";  /* ✿ — Black Rosette */
   font-family: "Parisienne", "Pinyon Script", serif;
   color: var(--nous-terracotta);
+  margin-left: 0.5em;
   margin-right: 0.5em;
   font-size: 0.85em;
   opacity: 0.9;
@@ -156,8 +162,22 @@
   content: "\2741";  /* ❁ — Eight-Petalled Outlined Black Florette */
   font-family: "Parisienne", "Pinyon Script", serif;
   color: var(--nous-stone-gray);
+  margin-left: 0.5em;
   margin-right: 0.55em;
   font-size: 0.9em;
+}
+
+/* Belt-and-braces — directly push the Obsidian fold indicator away
+   from the flower. In reading view this element only appears when a
+   heading is collapsible; margin-right opens space regardless of
+   whether the flower ornament is present. */
+.markdown-preview-view.handwriting h1 .heading-collapse-indicator,
+.markdown-preview-view.handwriting h2 .heading-collapse-indicator,
+.markdown-preview-view.handwriting h3 .heading-collapse-indicator,
+.markdown-preview-view.handwriting h4 .heading-collapse-indicator,
+.markdown-preview-view.handwriting h5 .heading-collapse-indicator,
+.markdown-preview-view.handwriting h6 .heading-collapse-indicator {
+  margin-right: 0.3em;
 }
 
 /* Inline title matches H1 */

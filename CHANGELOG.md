@@ -7,6 +7,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Changed
+- **Handwriting mode heading ornament spacing** — the flower marks (❃ ✿ ❁) before H1/H2/H3 in reading view were crashing into Obsidian's fold-indicator chevron when a heading was collapsible. Added `margin-left: 0.5em` on the `::before` ornaments to open a breathing gap on the chevron side, and a `margin-right: 0.3em` on `.heading-collapse-indicator` inside handwriting-mode headings as a belt-and-braces push. Right-side spacing (flower → heading text) unchanged.
 - **Handwriting mode English body font** — swapped `Petit Formal Script` for `Pinyon Script` by Nicole Fally. Pinyon carries the same formal-copperplate register but with pronounced flourishes on capitals and descender loops — matches the "quill letter" feel of handwriting mode more ornately. Size knobs (reading-view `1.08em` / line-height `1.8`) unchanged: Pinyon's x-height sits in the same range as Petit Formal's. Font-family fallbacks (Parisienne, Xingkai SC, Kaiti SC, etc.) unchanged.
 - **CHANGELOG push hook** — relaxed from "CHANGELOG must be staged or in unpushed commits" to "CHANGELOG must differ from origin/main in any way (working tree, staged, or committed)." Fixes false negatives when Claude chains `git add && git commit && git push` in one shell call — the hook now fires on the intent of the rule, not on mid-pipeline filesystem state.
 
