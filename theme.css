@@ -2239,9 +2239,25 @@ textarea:focus,
    19b. Mermaid diagrams — Nous warm palette adaptation
    ------------------------------------------------------------
    Obsidian renders ```mermaid blocks natively. Mermaid's default
-   color scheme is cool blue/green; we override the SVG fills and
-   strokes so flowcharts, sequence diagrams, state machines, gantt
-   charts, and ER diagrams all sit comfortably on parchment.
+   palette is cool (lavender nodes, blue edges, black markers);
+   we override the SVG fills/strokes/text so flowcharts, sequence,
+   state machines, gantt, ER, and pie all sit in the parchment
+   world in light mode and in a calm warm-on-near-black world in
+   dark mode.
+
+   Strategy: since Mermaid's class naming varies across versions
+   (.er parent vs. .er+.entityBox siblings, .pieN vs. path.slice,
+   etc.), we use THREE lines of attack in parallel:
+     (a) known class selectors  (.entityBox, .pieCircle, .node rect)
+     (b) positional selectors   (g.legend:nth-of-type(N) > rect)
+     (c) attribute-value fallbacks — catch Mermaid's default fills
+         (#ECECFF, #9370DB, #000) by VALUE so we paint correctly
+         even when our class guesses miss.
+
+   Dark mode uses a dedicated calm palette (#d5d2c6 body text,
+   muted terracotta strokes) — not pure white — so the diagram
+   reads without glare. See .theme-dark .mermaid block at the
+   bottom of this section.
    ============================================================ */
 
 .markdown-preview-view .mermaid,
@@ -2695,6 +2711,228 @@ textarea:focus,
   font-family: var(--nous-font-serif-body) !important;
   font-size: 0.85em !important;
   font-weight: 500 !important;
+}
+
+/* ------------------------------------------------------------
+   Attribute-value fallbacks — safety net for when class guesses
+   miss. Mermaid's default theme paints with a known set of hex
+   colors; we catch those values directly inside .mermaid and
+   repaint them in Nous warm. Scoped to `.mermaid` so external
+   SVGs on the page aren't affected. */
+
+/* Default lavender node fill (#ECECFF) — appears on ER entities,
+   class-diagram nodes, state-diagram rectangles when the class
+   selector doesn't match. Paint parchment ivory. */
+.mermaid rect[fill="#ECECFF"],
+.mermaid rect[fill="#ececff"],
+.mermaid path[fill="#ECECFF"],
+.mermaid path[fill="#ececff"],
+.mermaid polygon[fill="#ECECFF"] {
+  fill: var(--nous-ivory) !important;
+}
+.theme-dark .mermaid rect[fill="#ECECFF"],
+.theme-dark .mermaid rect[fill="#ececff"],
+.theme-dark .mermaid path[fill="#ECECFF"],
+.theme-dark .mermaid path[fill="#ececff"],
+.theme-dark .mermaid polygon[fill="#ECECFF"] {
+  fill: var(--nous-warm-sand) !important;
+}
+
+/* Default purple stroke (#9370DB — medium purple). Paint terracotta. */
+.mermaid rect[stroke="#9370DB"],
+.mermaid rect[stroke="#9370db"],
+.mermaid path[stroke="#9370DB"],
+.mermaid path[stroke="#9370db"],
+.mermaid polygon[stroke="#9370DB"],
+.mermaid line[stroke="#9370DB"],
+.mermaid line[stroke="#9370db"] {
+  stroke: var(--nous-terracotta) !important;
+}
+
+/* Default black markers (ER cardinality triangles, flowchart arrowheads
+   in some versions). Paint warm charcoal. Use :not(text) so we don't
+   mute actual text glyphs. */
+.mermaid path[fill="#000"]:not(text),
+.mermaid path[fill="#000000"]:not(text),
+.mermaid path[fill="black"]:not(text),
+.mermaid polygon[fill="#000"]:not(text),
+.mermaid polygon[fill="#000000"]:not(text),
+.mermaid polygon[fill="black"]:not(text) {
+  fill: var(--nous-charcoal-warm) !important;
+}
+.theme-dark .mermaid path[fill="#000"]:not(text),
+.theme-dark .mermaid path[fill="#000000"]:not(text),
+.theme-dark .mermaid path[fill="black"]:not(text),
+.theme-dark .mermaid polygon[fill="#000"]:not(text),
+.theme-dark .mermaid polygon[fill="#000000"]:not(text),
+.theme-dark .mermaid polygon[fill="black"]:not(text) {
+  fill: #a09b91 !important;
+}
+
+/* ------------------------------------------------------------
+   Dark-mode theme — coherent "warm ink on near-black paper" look.
+   Lower-contrast than pure white, so diagrams don't glare. The
+   slice palette override (coral/apricot/gold/…) lives near the
+   top of this section; everything else is consolidated here so
+   the dark theme reads as ONE design choice rather than a pile
+   of overrides scattered through the flowchart/sequence/ER blocks.
+   */
+
+.theme-dark .mermaid {
+  --mm-text:        #d5d2c6;  /* calm warm off-white — body text */
+  --mm-text-soft:   #a09b91;  /* one notch dimmer — captions, markers */
+  --mm-surface:     #30302e;  /* node card surface (= --nous-warm-sand) */
+  --mm-surface-low: #1c1c1a;  /* cluster backdrop (subtle lift over body) */
+  --mm-stroke:      #b25a3a;  /* muted terracotta — node border */
+  --mm-edge:        #7a7770;  /* edge line — warm medium gray */
+  --mm-edge-strong: #9d9a92;  /* arrowheads — slightly brighter than edges */
+  --mm-hairline:    #4d4c48;  /* dashed/subtle lines (actor line, ticks) */
+  --mm-halo:        #141413;  /* page bg for text halo */
+}
+
+/* Node & actor surfaces */
+.theme-dark .mermaid .node rect,
+.theme-dark .mermaid .node circle,
+.theme-dark .mermaid .node ellipse,
+.theme-dark .mermaid .node polygon,
+.theme-dark .mermaid .node path,
+.theme-dark .mermaid .state rect,
+.theme-dark .mermaid .actor,
+.theme-dark .mermaid rect.entityBox,
+.theme-dark .mermaid .entityBox {
+  fill: var(--mm-surface) !important;
+  stroke: var(--mm-stroke) !important;
+  stroke-width: 1.2px !important;
+}
+
+/* Cluster / subgraph — one step below nodes so nesting reads */
+.theme-dark .mermaid .cluster rect {
+  fill: var(--mm-surface-low) !important;
+  stroke: var(--mm-hairline) !important;
+}
+
+/* Sequence note — reuse node surface so notes read as cards */
+.theme-dark .mermaid .note {
+  fill: var(--mm-surface) !important;
+  stroke: var(--mm-hairline) !important;
+}
+
+/* Lines — flowchart edges, sequence messages, state transitions,
+   ER relationship lines. All on the warm medium gray. */
+.theme-dark .mermaid .edgePath .path,
+.theme-dark .mermaid .flowchart-link,
+.theme-dark .mermaid .relation,
+.theme-dark .mermaid line.messageLine0,
+.theme-dark .mermaid line.messageLine1,
+.theme-dark .mermaid .transition,
+.theme-dark .mermaid path.relationshipLine,
+.theme-dark .mermaid .relationshipLine {
+  stroke: var(--mm-edge) !important;
+  fill: none !important;
+}
+
+/* Arrowheads & ER cardinality markers */
+.theme-dark .mermaid .arrowheadPath,
+.theme-dark .mermaid marker path,
+.theme-dark .mermaid marker polygon,
+.theme-dark .mermaid marker circle,
+.theme-dark .mermaid defs marker path,
+.theme-dark .mermaid defs marker polygon,
+.theme-dark .mermaid defs marker circle {
+  fill: var(--mm-edge-strong) !important;
+  stroke: var(--mm-edge-strong) !important;
+}
+
+/* Actor dashed line, gantt ticks, hairlines */
+.theme-dark .mermaid .actor-line,
+.theme-dark .mermaid line.actor-line,
+.theme-dark .mermaid .grid .tick line,
+.theme-dark .mermaid .grid path,
+.theme-dark .mermaid .loopLine {
+  stroke: var(--mm-hairline) !important;
+}
+
+/* Text — node labels, message text, task text, ER entity/attribute,
+   pie title, legend labels. All on the calm warm off-white. */
+.theme-dark .mermaid .node text,
+.theme-dark .mermaid .nodeLabel,
+.theme-dark .mermaid .node foreignObject,
+.theme-dark .mermaid .node foreignObject div,
+.theme-dark .mermaid .node foreignObject span,
+.theme-dark .mermaid text.actor,
+.theme-dark .mermaid .messageText,
+.theme-dark .mermaid .labelText,
+.theme-dark .mermaid .loopText,
+.theme-dark .mermaid .noteText,
+.theme-dark .mermaid g.note text,
+.theme-dark .mermaid .taskText,
+.theme-dark .mermaid .taskTextOutsideRight,
+.theme-dark .mermaid .taskTextOutsideLeft,
+.theme-dark .mermaid .entityLabel,
+.theme-dark .mermaid text.entityLabel,
+.theme-dark .mermaid .er text,
+.theme-dark .mermaid .pieTitleText,
+.theme-dark .mermaid .legend text,
+.theme-dark .mermaid text.legend,
+.theme-dark .mermaid .cluster text,
+.theme-dark .mermaid .cluster .label,
+.theme-dark .mermaid .cluster .nodeLabel {
+  fill: var(--mm-text) !important;
+  color: var(--mm-text) !important;
+}
+
+/* Edge / relationship labels — keep the halo, soften color */
+.theme-dark .mermaid .edgeLabel text,
+.theme-dark .mermaid g.edgeLabel text,
+.theme-dark .mermaid .relationshipLabel,
+.theme-dark .mermaid text.relationshipLabel {
+  fill: var(--mm-text) !important;
+  stroke: var(--mm-halo) !important;
+}
+.theme-dark .mermaid .edgeLabel foreignObject,
+.theme-dark .mermaid .edgeLabel span,
+.theme-dark .mermaid .edgeLabel p,
+.theme-dark .mermaid g.edgeLabel foreignObject,
+.theme-dark .mermaid g.edgeLabel span,
+.theme-dark .mermaid g.edgeLabel p {
+  color: var(--mm-text) !important;
+  text-shadow:
+    2px 0 0 var(--mm-halo),
+    -2px 0 0 var(--mm-halo),
+    0 2px 0 var(--mm-halo),
+    0 -2px 0 var(--mm-halo),
+    2px 2px 0 var(--mm-halo),
+    -2px -2px 0 var(--mm-halo),
+    2px -2px 0 var(--mm-halo),
+    -2px 2px 0 var(--mm-halo);
+}
+
+/* Percentage labels inside pie slices — stay dark so they read on
+   the luminous warm slice fills (coral / apricot / gold). */
+.theme-dark .mermaid text.slice {
+  fill: var(--mm-halo) !important;
+}
+
+/* Pie outer circle — warm hairline */
+.theme-dark .mermaid circle.pieOuterCircle {
+  stroke: var(--mm-hairline) !important;
+}
+
+/* ER attribute hairlines — dark mode slightly brighter than light */
+.theme-dark .mermaid rect.attributeBoxOdd,
+.theme-dark .mermaid rect.attributeBoxEven,
+.theme-dark .mermaid .attributeBoxOdd,
+.theme-dark .mermaid .attributeBoxEven {
+  fill: transparent !important;
+  stroke: var(--mm-hairline) !important;
+  stroke-width: 0.5px !important;
+}
+
+/* Kill relationship-label rect in dark too */
+.theme-dark .mermaid rect.relationshipLabelBox,
+.theme-dark .mermaid .relationshipLabelBox {
+  fill: transparent !important;
+  stroke: none !important;
 }
 
 /* ============================================================
