@@ -2369,11 +2369,11 @@ textarea:focus,
 .mermaid g.edgeLabel text {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
-  font-size: 0.9em !important;
+  font-size: 1.05em !important;
   font-weight: 500 !important;
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 3px !important;
+  stroke-width: 4px !important;
   stroke-linejoin: round;
 }
 /* Text — HTML path (Mermaid uses foreignObject for CJK / complex
@@ -2389,18 +2389,18 @@ textarea:focus,
   background-color: transparent !important;
   color: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
-  font-size: 0.9em !important;
+  font-size: 1.05em !important;
   font-weight: 500 !important;
   padding: 0 2px !important;
   text-shadow:
-    1.5px 0 0 var(--background-primary),
-    -1.5px 0 0 var(--background-primary),
-    0 1.5px 0 var(--background-primary),
-    0 -1.5px 0 var(--background-primary),
-    1.5px 1.5px 0 var(--background-primary),
-    -1.5px -1.5px 0 var(--background-primary),
-    1.5px -1.5px 0 var(--background-primary),
-    -1.5px 1.5px 0 var(--background-primary);
+    2px 0 0 var(--background-primary),
+    -2px 0 0 var(--background-primary),
+    0 2px 0 var(--background-primary),
+    0 -2px 0 var(--background-primary),
+    2px 2px 0 var(--background-primary),
+    -2px -2px 0 var(--background-primary),
+    2px -2px 0 var(--background-primary),
+    -2px 2px 0 var(--background-primary);
 }
 
 /* --- Clusters / subgraphs --- */
@@ -2558,11 +2558,11 @@ textarea:focus,
 .mermaid text.relationshipLabel {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-body) !important;
-  font-size: 0.9em !important;
+  font-size: 1.05em !important;
   font-weight: 500 !important;
   paint-order: stroke fill;
   stroke: var(--background-primary) !important;
-  stroke-width: 3px !important;
+  stroke-width: 4px !important;
   stroke-linejoin: round;
 }
 /* ER cardinality markers (one / many / zero-or-one). Mermaid puts these
