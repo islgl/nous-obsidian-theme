@@ -56,20 +56,20 @@
   color: #1c1c18;
 }
 
-/* Reading view — manuscript scale. Italianno has a SMALLER x-height
-   than Petit Formal Script (thinner strokes, longer ascenders), so
-   it reads smaller at the same em; bump to 1.25em so body prose
-   stays comfortable. Line-height stays generous to make room for
-   the tall loops and swashes. */
+/* Reading view — manuscript scale. Italianno has a small x-height
+   (thin strokes, long ascenders), so it reads quite small at body
+   em; 1.45em gives it presence in both Latin and CJK (Xingkai SC /
+   Kaiti SC inherit the same size). Line-height stays generous to
+   make room for tall loops and Chinese radicals. */
 .markdown-preview-view.handwriting {
-  font-size: 1.25em;
+  font-size: 1.45em;
   line-height: 1.75;
 }
 
-/* Edit mode — shrink back toward body size so the script font
-   doesn't get in the way while you're typing. */
+/* Edit mode — don't shrink as aggressively as before; typing in
+   cursive is part of the point of handwriting mode. */
 .markdown-source-view.handwriting .cm-content {
-  font-size: 1.05em;
+  font-size: 1.2em;
   line-height: 1.7;
 }
 .theme-dark .markdown-preview-view.handwriting,
