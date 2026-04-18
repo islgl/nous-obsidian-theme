@@ -28,6 +28,18 @@ set +e
 payload=$(cat)
 cmd=$(printf '%s' "$payload" | jq -r '.tool_input.command // ""')
 
+# Scope the rule to this repo. The hook is configured at the project
+# level, but Claude Code applies it to any `git push` run in this
+# session — including pushes from temp clones of unrelated repos
+# (e.g. fork clones used to submit PRs elsewhere). When the current
+# git repo's origin URL doesn't point at nous-obsidian-theme, the
+# CHANGELOG rule doesn't apply; let the push through.
+origin_url=$(git config --get remote.origin.url 2>/dev/null || echo "")
+case "$origin_url" in
+  *nous-obsidian-theme*) ;;
+  *) exit 0 ;;
+esac
+
 # Tag-only-push short-circuit.
 is_tag_push=false
 if printf '%s' "$cmd" | grep -Eq '(^|[[:space:]])--tags([[:space:]]|$)'; then
