@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/logo/nous-mark.svg" width="96" alt="Nous">
-</p>
-
 <h1 align="center">Nous — An Obsidian theme</h1>
 
 <p align="center">

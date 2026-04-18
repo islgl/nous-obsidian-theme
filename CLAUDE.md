@@ -8,6 +8,5 @@
 
 ## Asset layout
 
-- Brand marks, lockup, OG image live in `assets/logo/`.
 - README preview screenshots live in `assets/screenshots/`.
 - Raw/unedited screenshot exports live in the repo-root `screenshots/` directory and are gitignored (canonical versions are promoted into `assets/screenshots/`).

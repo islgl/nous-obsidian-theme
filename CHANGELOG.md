@@ -29,6 +29,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - **Mermaid pie legend** — the first attempt assumed Mermaid emitted `<rect class="legend0">` on the swatches; the rects actually have *no class* — color lives in an inline `style="fill: rgb(…); stroke: rgb(…)"` on the rect, with `.legend` sitting on the parent `<g>`. New selector is `.mermaid g.legend:nth-of-type(7n+k) > rect` and overrides both `fill` and `stroke` (Mermaid sets both inline). The decorative `circle.pieOuterCircle` border also gets a transparent fill + warm hairline so it stops fighting the slice palette.
 
 ### Removed
+- **All logo / brand assets** — deleted `assets/logo/` entirely (mark, inverse mark, 256-px PNG, lockup, OG image) along with every reference in README, CLAUDE.md's Asset layout section, and the Unreleased CHANGELOG entries that described the `assets/logo/` restructure. README header no longer opens with an `<img>` — it jumps straight to the `<h1>`. Rationale: the typography *is* the brand; a bespoke mark on top of a theme whose whole point is editorial restraint read as noisy. GitHub social previews will now fall back to the default repo card, which is fine at this stage.
 - `docs/` directory (including `DESIGN.md`) — the visual direction is now carried entirely by the theme + README; design-doc maintenance was a tax with no reader.
 - README "Design reference" section and the prominent "Inspired by Claude" disclaimer blockquote — the Acknowledgments section at the bottom still carries the credit and the not-affiliated note.
 - GitHub stars badge — the badge row reads cleaner without it.
@@ -38,7 +39,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - README preview is now a single 2×3 table of all six screenshots (hero, dark, paper, handwriting, callouts, tables), dropping the split hero + grid + tables-below layout.
 
 ### Added
-- `assets/` restructured into `assets/logo/` (brand marks, lockup, OG image) and `assets/screenshots/` (preview gallery).
+- `assets/screenshots/` subdirectory for the preview gallery (hero, dark, paper, handwriting, callouts, tables).
 - `screenshots/tables.png` — booktabs + math preview added to README.
 - `screenshots/callouts.png` — correct callout gallery image (the previous file mislabeled as callouts was actually the tables + math shot; now filed as `tables.png`).
 - README badges — release, license, Obsidian version, light/dark modes, stars.
@@ -48,7 +49,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - **`.claude/settings.json` + `.claude/hooks/check-changelog.sh`** — committed Claude Code hook that enforces the CHANGELOG-before-push rule. A `PreToolUse` hook on `Bash` matching `git push*` checks that `CHANGELOG.md` is either staged or included in the commits ahead of the upstream; if neither, the push is blocked with a message pointing to `CLAUDE.md`. `.gitignore` is loosened so `.claude/settings.json` and `.claude/hooks/` are tracked while `.claude/settings.local.json` stays personal.
 
 ### Changed
-- README header now includes the inspiration statement up front and asset paths have been updated to the new `assets/logo/` and `assets/screenshots/` locations.
+- README header now includes the inspiration statement up front and asset paths have been updated to the new `assets/screenshots/` location.
 
 ## [1.0.0-alpha.1] — 2026-04-18
 
