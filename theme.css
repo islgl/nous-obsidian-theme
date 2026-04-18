@@ -2468,76 +2468,124 @@ textarea:focus,
 }
 
 /* --- Entity-relationship diagrams ---
-   Mermaid's default ER draws cool blue-gray boxes with black text
-   and a thick relationship rectangle behind the verb. Nous rebuilds
-   it as a warm "table" aesthetic: parchment entity card, terracotta
-   header rule, small-caps attribute rows, unboxed relationship verbs. */
-.mermaid .er .entityBox {
+   Gotcha: Mermaid writes `class="er entityBox"` — two class names on
+   the SAME element, not a parent/child hierarchy. A descendant selector
+   `.mermaid .er .entityBox` (with spaces) matches nothing and the rules
+   get dropped silently, so the diagram falls back to Mermaid's cool
+   default palette. Target each class directly (no `.er` ancestor).
+   We also bump specificity with `.markdown-preview-view` so the Mermaid
+   inline `<style>` inside the SVG doesn't win the cascade. */
+.markdown-preview-view .mermaid .entityBox,
+.mermaid rect.entityBox {
   fill: var(--nous-ivory) !important;
   stroke: var(--nous-terracotta) !important;
   stroke-width: 1.4px !important;
 }
-.theme-dark .mermaid .er .entityBox {
+.theme-dark .markdown-preview-view .mermaid .entityBox,
+.theme-dark .mermaid rect.entityBox {
   fill: var(--nous-warm-sand) !important;
 }
-.mermaid .er .attributeBoxOdd,
-.mermaid .er .attributeBoxEven {
+.markdown-preview-view .mermaid .attributeBoxOdd,
+.markdown-preview-view .mermaid .attributeBoxEven,
+.mermaid rect.attributeBoxOdd,
+.mermaid rect.attributeBoxEven {
   fill: transparent !important;
   stroke: var(--nous-border-warm) !important;
   stroke-width: 0.5px !important;
 }
-.theme-dark .mermaid .er .attributeBoxOdd,
-.theme-dark .mermaid .er .attributeBoxEven {
+.theme-dark .markdown-preview-view .mermaid .attributeBoxOdd,
+.theme-dark .markdown-preview-view .mermaid .attributeBoxEven,
+.theme-dark .mermaid rect.attributeBoxOdd,
+.theme-dark .mermaid rect.attributeBoxEven {
   stroke: var(--nous-ring-warm) !important;
 }
-.mermaid .er .entityLabel {
+.markdown-preview-view .mermaid .entityLabel,
+.mermaid text.entityLabel {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-heading) !important;
   font-variant-caps: all-small-caps;
   letter-spacing: 0.06em;
   font-weight: 600 !important;
 }
-.mermaid .er text {
-  fill: var(--text-normal) !important;
-  font-family: var(--nous-font-serif-body) !important;
-}
-.mermaid .er .relationshipLine {
+.markdown-preview-view .mermaid .relationshipLine,
+.mermaid path.relationshipLine {
   stroke: var(--nous-charcoal-warm) !important;
   fill: none !important;
 }
-.theme-dark .mermaid .er .relationshipLine {
+.theme-dark .markdown-preview-view .mermaid .relationshipLine,
+.theme-dark .mermaid path.relationshipLine {
   stroke: var(--nous-dark-warm) !important;
 }
-/* Kill the default rect behind relationship labels — verbs read inline. */
-.mermaid .er .relationshipLabelBox,
-.mermaid .er rect.relationshipLabelBox {
+/* Kill the opaque rect Mermaid draws behind relationship verbs. */
+.markdown-preview-view .mermaid .relationshipLabelBox,
+.mermaid rect.relationshipLabelBox {
   fill: transparent !important;
   stroke: none !important;
   opacity: 1 !important;
 }
-.mermaid .er .relationshipLabel {
+.markdown-preview-view .mermaid .relationshipLabel,
+.mermaid text.relationshipLabel {
   fill: var(--text-muted) !important;
   font-family: var(--nous-font-serif-body) !important;
   font-style: italic;
   font-size: 0.85em !important;
 }
+/* ER cardinality markers (one / many / zero-or-one). Mermaid puts these
+   in <defs><marker id="ONLY_ONE_…">. Without explicit overrides they
+   default to black via Mermaid's built-in theme. Paint them warm. */
+.mermaid defs marker path,
+.mermaid defs marker polygon,
+.mermaid defs marker circle,
+.mermaid defs marker line,
+.mermaid defs marker ellipse {
+  fill: var(--nous-charcoal-warm) !important;
+  stroke: var(--nous-charcoal-warm) !important;
+}
+.theme-dark .mermaid defs marker path,
+.theme-dark .mermaid defs marker polygon,
+.theme-dark .mermaid defs marker circle,
+.theme-dark .mermaid defs marker line,
+.theme-dark .mermaid defs marker ellipse {
+  fill: var(--nous-dark-warm) !important;
+  stroke: var(--nous-dark-warm) !important;
+}
 
 /* --- Pie chart ---
-   Replace the default Mermaid palette with the Nous warm rotation so
-   slices sit in the same parchment world as the rest of the diagram.
-   Target indexed Mermaid classes (`.pie1` … `.pie12`) because slice
-   fills are applied via class name, not via the SVG `fill` attribute. */
-.mermaid .pieCircle {
+   Slice paths in Mermaid v10+ are all `<path class="pieCircle">` with
+   the color written as a `fill="…"` SVG attribute. CSS `!important`
+   beats a presentation attribute, so nth-of-type rotation is the
+   cleanest way to recolor without depending on a `.pieN` class that
+   may or may not be emitted. Bump specificity past Mermaid's inline
+   <style> by prefixing with `.markdown-preview-view`. */
+.markdown-preview-view .mermaid path.pieCircle,
+.mermaid svg path.pieCircle {
   stroke: var(--background-primary) !important;
   stroke-width: 2px !important;
 }
-.mermaid path.pie1, .mermaid path.slice:nth-of-type(7n+1) { fill: var(--nous-slice-1) !important; }
-.mermaid path.pie2, .mermaid path.slice:nth-of-type(7n+2) { fill: var(--nous-slice-2) !important; }
-.mermaid path.pie3, .mermaid path.slice:nth-of-type(7n+3) { fill: var(--nous-slice-3) !important; }
-.mermaid path.pie4, .mermaid path.slice:nth-of-type(7n+4) { fill: var(--nous-slice-4) !important; }
-.mermaid path.pie5, .mermaid path.slice:nth-of-type(7n+5) { fill: var(--nous-slice-5) !important; }
-.mermaid path.pie6, .mermaid path.slice:nth-of-type(7n+6) { fill: var(--nous-slice-6) !important; }
-.mermaid path.pie7, .mermaid path.slice:nth-of-type(7n)   { fill: var(--nous-slice-7) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+1),
+.mermaid svg path.pieCircle:nth-of-type(7n+1) { fill: var(--nous-slice-1) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+2),
+.mermaid svg path.pieCircle:nth-of-type(7n+2) { fill: var(--nous-slice-2) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+3),
+.mermaid svg path.pieCircle:nth-of-type(7n+3) { fill: var(--nous-slice-3) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+4),
+.mermaid svg path.pieCircle:nth-of-type(7n+4) { fill: var(--nous-slice-4) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+5),
+.mermaid svg path.pieCircle:nth-of-type(7n+5) { fill: var(--nous-slice-5) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n+6),
+.mermaid svg path.pieCircle:nth-of-type(7n+6) { fill: var(--nous-slice-6) !important; }
+.markdown-preview-view .mermaid path.pieCircle:nth-of-type(7n),
+.mermaid svg path.pieCircle:nth-of-type(7n)   { fill: var(--nous-slice-7) !important; }
+
+/* Legend color chips — Mermaid emits <rect class="legend0">, .legend1… */
+.mermaid rect.legend0 { fill: var(--nous-slice-1) !important; }
+.mermaid rect.legend1 { fill: var(--nous-slice-2) !important; }
+.mermaid rect.legend2 { fill: var(--nous-slice-3) !important; }
+.mermaid rect.legend3 { fill: var(--nous-slice-4) !important; }
+.mermaid rect.legend4 { fill: var(--nous-slice-5) !important; }
+.mermaid rect.legend5 { fill: var(--nous-slice-6) !important; }
+.mermaid rect.legend6 { fill: var(--nous-slice-7) !important; }
+
 .mermaid .pieTitleText {
   fill: var(--text-normal) !important;
   font-family: var(--nous-font-serif-heading) !important;
@@ -2549,8 +2597,7 @@ textarea:focus,
   font-family: var(--nous-font-serif-body) !important;
   font-size: 0.9em !important;
 }
-/* Percentage labels drawn inside slices are <text class="slice"> —
-   targeted with text.slice so we don't stomp on path.slice fills. */
+/* Percentage labels rendered inside slices — <text class="slice"> */
 .mermaid text.slice {
   fill: var(--nous-ivory) !important;
   font-family: var(--nous-font-serif-body) !important;
