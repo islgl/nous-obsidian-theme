@@ -3,8 +3,10 @@
    Claude editorial aesthetic × LaTeX academic typography.
 
    Palette is Claude's warm parchment / terracotta system.
-   Typography is a LaTeX-adjacent serif (Crimson Pro / EB Garamond)
-   paired with Inter for UI and JetBrains Mono for code.
+   Typography follows the nous design system: Cormorant Garamond for
+   display headings, EB Garamond for body prose, Cormorant SC for
+   small-caps labels, GFS Didot for Greek text, and JetBrains Mono
+   for code. Inter handles Obsidian UI chrome.
    ============================================================ */
 
 /* @settings
@@ -17,13 +19,19 @@ settings:
     title: Headline font
     description: The serif used for headings and display text.
     type: variable-text
-    default: '"Crimson Pro", "EB Garamond", "Source Serif 4", Georgia, serif'
+    default: '"Cormorant Garamond", "EB Garamond", "Source Serif 4", Georgia, serif'
   -
     id: nous-serif-body
     title: Body font
     description: The serif used for body text in the editor and reading view.
     type: variable-text
-    default: '"Crimson Pro", "EB Garamond", "Source Serif 4", Georgia, serif'
+    default: '"EB Garamond", "Cormorant Garamond", "Source Serif 4", Georgia, serif'
+  -
+    id: nous-font-sc
+    title: Small-caps font
+    description: The serif used for H5/H6 headings, callout titles, and table headers rendered in small-caps.
+    type: variable-text
+    default: '"Cormorant SC", "Cormorant Garamond", "EB Garamond", Georgia, serif'
   -
     id: nous-sans-ui
     title: UI font
@@ -94,13 +102,13 @@ settings:
 /* ------------------------------------------------------------
    1. Fonts
    ------------------------------------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Cormorant+SC:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=GFS+Didot&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 /* ------------------------------------------------------------
    CJK size-adjustment for headings.
    Chinese serifs (Songti SC / Noto Serif SC / etc.) fill almost
-   their entire em-box, while Latin serifs like Crimson Pro only
-   fill ~70% of it. At large heading sizes this makes Chinese
+   their entire em-box, while Latin serifs like Cormorant Garamond
+   only fill ~70% of it. At large heading sizes this makes Chinese
    characters look ~30% bigger than adjacent English in mixed
    titles. We register virtual "Adjusted" font-families that
    wrap the real local fonts with `size-adjust: 85%`, and use
@@ -144,7 +152,7 @@ settings:
   --nous-ivory:         #faf9f5;
   --nous-pure-white:    #ffffff;
   --nous-warm-sand:     #e8e6dc;
-  --nous-terracotta:    #c96442;
+  --nous-terracotta:    #a8553a;   /* nous canonical: red-figure pottery */
   --nous-coral:         #d97757;
   --nous-near-black:    #141413;
   --nous-dark-surface:  #30302e;
@@ -168,10 +176,28 @@ settings:
   --nous-slate:   #546a7b;
 
   /* --- Fonts --- */
-  --nous-font-serif-heading: "Crimson Pro", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC Adjusted", "Source Han Serif Adjusted", "SimSun Adjusted", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
-  --nous-font-serif-body:    "Crimson Pro", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-serif-heading: "Cormorant Garamond", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC Adjusted", "Source Han Serif Adjusted", "SimSun Adjusted", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-serif-body:    "EB Garamond", "Cormorant Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-sc:            "Cormorant SC", "Cormorant Garamond", "EB Garamond", "Source Serif 4", Georgia, "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", serif;
+  --nous-font-greek:         "GFS Didot", "EB Garamond", "Cormorant Garamond", Georgia, serif;
   --nous-font-sans-ui:       "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
   --nous-font-mono:          "JetBrains Mono", "Fira Code", "SF Mono", Monaco, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* --- Nous canonical palette (mirrors tokens.css) --- */
+  --nous-paper:      #fdfcf9;
+  --nous-paper-2:    #f6f4ee;
+  --nous-paper-3:    #ece9e0;
+  --nous-ink:        #1a1814;
+  --nous-ink-2:      #3a362e;
+  --nous-ink-3:      #6f6b62;
+  --nous-ink-4:      #a4a198;
+  --nous-aegean:     #3d6a7a;
+  --nous-aegean-2:   #6a91a0;
+  --nous-olive:      #6e7542;
+  --nous-wine:       #6e2f3a;
+  --nous-rule:       #dedacd;
+  --nous-rule-soft:  #ece9dd;
+  --nous-ochre:      #b5893b;
 
   --nous-body-size: 17px;
   --nous-body-line-height: 1.65;
@@ -217,10 +243,10 @@ settings:
   --interactive-accent-hover:    var(--nous-coral);
   --interactive-success:         var(--nous-sage);
 
-  --link-color:             var(--nous-terracotta);
-  --link-color-hover:       var(--nous-coral);
+  --link-color:             var(--nous-aegean);
+  --link-color-hover:       var(--nous-terracotta);
   --link-external-color:    var(--nous-dark-warm);
-  --link-external-color-hover: var(--nous-terracotta);
+  --link-external-color-hover: var(--nous-aegean);
   --link-unresolved-color:  var(--nous-stone-gray);
   --link-unresolved-opacity: 1;
   --link-unresolved-filter:  none;
@@ -234,18 +260,18 @@ settings:
   --h4-color: var(--nous-charcoal-warm);
   --h5-color: var(--nous-charcoal-warm);
   --h6-color: var(--nous-olive-gray);
-  --h1-weight: 600;
-  --h2-weight: 600;
-  --h3-weight: 600;
-  --h4-weight: 600;
-  --h5-weight: 600;
-  --h6-weight: 600;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 500;
+  --h4-weight: 500;
+  --h5-weight: 500;
+  --h6-weight: 500;
   --h1-size: 2.6em;
   --h2-size: 1.9em;
-  --h3-size: 1.6em;
-  --h4-size: 1.4em;
-  --h5-size: 1.28em;
-  --h6-size: 1.22em;
+  --h3-size: 1.45em;
+  --h4-size: 1.15em;
+  --h5-size: 1em;
+  --h6-size: 0.85em;
   --h1-line-height: 1.1;
   --h2-line-height: 1.15;
   --h3-line-height: 1.2;
@@ -254,21 +280,36 @@ settings:
   --h6-line-height: 1.4;
   --heading-spacing: 1.4em;
 
-  /* code syntax (Prism-compatible) */
-  --code-background:  rgba(20, 20, 19, 0.05);
-  --code-normal:      var(--nous-near-black);
-  --code-comment:     var(--nous-stone-gray);
-  --code-keyword:     var(--nous-terracotta);
-  --code-function:    var(--nous-dark-warm);
-  --code-string:      var(--nous-sage);
-  --code-value:       var(--nous-charcoal-warm);
-  --code-property:    var(--nous-plum);
-  --code-operator:    var(--nous-olive-gray);
-  --code-tag:         var(--nous-terracotta);
+  /* code syntax — nous --syn-* tokens (light) */
+  --syn-bg:      #f8f6ee;
+  --syn-fg:      #2a2620;
+  --syn-comment: #9a9081;
+  --syn-keyword: #6e2f3a;
+  --syn-string:  #6e7542;
+  --syn-number:  #a8553a;
+  --syn-func:    #3d6a7a;
+  --syn-punct:   #6b6254;
+
+  --code-background:  rgba(20, 20, 19, 0.05);   /* inline code tint */
+  --code-normal:      var(--syn-fg);
+  --code-comment:     var(--syn-comment);
+  --code-keyword:     var(--syn-keyword);
+  --code-function:    var(--syn-func);
+  --code-string:      var(--syn-string);
+  --code-value:       var(--syn-number);
+  --code-property:    var(--syn-func);
+  --code-operator:    var(--syn-punct);
+  --code-tag:         var(--syn-keyword);
   --code-important:   var(--nous-error-crimson);
-  --code-punctuation: var(--nous-olive-gray);
-  --code-white:       var(--nous-near-black);
-  --code-size:        0.88em;
+  --code-punctuation: var(--syn-punct);
+  --code-white:       var(--syn-fg);
+  --code-size:        0.82em;
+
+  /* Obsidian native code-block variables — override app.css defaults */
+  --code-block-background:   var(--syn-bg);
+  --code-block-border-color: var(--nous-rule-soft);
+  --code-block-font-size:    0.82em;
+  --code-block-line-height:  1.7;
 
   /* shadows — Claude's ring-first system */
   --shadow-s:  0 0 0 1px var(--nous-border-cream);
@@ -377,9 +418,9 @@ settings:
 
   /* blockquote */
   --blockquote-background-color: transparent;
-  --blockquote-border-color:     var(--nous-ring-deep);
+  --blockquote-border-color:     var(--nous-terracotta);
   --blockquote-border-thickness: 2px;
-  --blockquote-color:            var(--nous-charcoal-warm);
+  --blockquote-color:            var(--nous-ink-2);
   --blockquote-font-style:       italic;
 
   --accent-h: 16;
@@ -402,7 +443,7 @@ settings:
   --nous-ivory:         #1c1c1a;
   --nous-pure-white:    #222220;
   --nous-warm-sand:     #30302e;
-  --nous-terracotta:    #d97757;
+  --nous-terracotta:    #c97b5e;   /* nous canonical dark: pottery warm */
   --nous-coral:         #e8906d;
   --nous-near-black:    #f5f4ed;
   --nous-dark-surface:  #30302e;
@@ -424,10 +465,28 @@ settings:
   --nous-plum:    #a68898;
   --nous-slate:   #8aa0b0;
 
-  --nous-font-serif-heading: "Crimson Pro", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC Adjusted", "Source Han Serif Adjusted", "SimSun Adjusted", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
-  --nous-font-serif-body:    "Crimson Pro", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-serif-heading: "Cormorant Garamond", "EB Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC Adjusted", "Source Han Serif Adjusted", "SimSun Adjusted", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-serif-body:    "EB Garamond", "Cormorant Garamond", "Source Serif 4", "STIX Two Text", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", "Songti TC", "华文宋体", "宋体", SimSun, serif;
+  --nous-font-sc:            "Cormorant SC", "Cormorant Garamond", "EB Garamond", "Source Serif 4", Georgia, "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", serif;
+  --nous-font-greek:         "GFS Didot", "EB Garamond", "Cormorant Garamond", Georgia, serif;
   --nous-font-sans-ui:       "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
   --nous-font-mono:          "JetBrains Mono", "Fira Code", "SF Mono", Monaco, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* --- Nous canonical palette (mirrors tokens.css dark) --- */
+  --nous-paper:      #15140f;
+  --nous-paper-2:    #1d1c16;
+  --nous-paper-3:    #272519;
+  --nous-ink:        #ece3cf;
+  --nous-ink-2:      #cfc4ab;
+  --nous-ink-3:      #948b73;
+  --nous-ink-4:      #5e5844;
+  --nous-aegean:     #8fb4c2;
+  --nous-aegean-2:   #6a91a0;
+  --nous-olive:      #a5ae74;
+  --nous-wine:       #c08b97;
+  --nous-rule:       #3a362a;
+  --nous-rule-soft:  #282518;
+  --nous-ochre:      #dcac58;
 
   --nous-body-size: 17px;
   --nous-body-line-height: 1.65;
@@ -468,10 +527,10 @@ settings:
   --interactive-accent-hover: var(--nous-coral);
   --interactive-success:      var(--nous-sage);
 
-  --link-color:             var(--nous-terracotta);
-  --link-color-hover:       var(--nous-coral);
+  --link-color:             var(--nous-aegean);
+  --link-color-hover:       var(--nous-terracotta);
   --link-external-color:    #d5d2c6;
-  --link-external-color-hover: var(--nous-terracotta);
+  --link-external-color-hover: var(--nous-aegean);
   --link-unresolved-color:  #87867f;
 
   --h1-color: #f5f4ed;
@@ -483,18 +542,18 @@ settings:
   /* Heading structural tokens — mirror .theme-light exactly so size /
      weight / line-height match across dark and light modes. Only the
      colors above differ. */
-  --h1-weight: 600;
-  --h2-weight: 600;
-  --h3-weight: 600;
-  --h4-weight: 600;
-  --h5-weight: 600;
-  --h6-weight: 600;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 500;
+  --h4-weight: 500;
+  --h5-weight: 500;
+  --h6-weight: 500;
   --h1-size: 2.6em;
   --h2-size: 1.9em;
-  --h3-size: 1.6em;
-  --h4-size: 1.4em;
-  --h5-size: 1.28em;
-  --h6-size: 1.22em;
+  --h3-size: 1.45em;
+  --h4-size: 1.15em;
+  --h5-size: 1em;
+  --h6-size: 0.85em;
   --h1-line-height: 1.1;
   --h2-line-height: 1.15;
   --h3-line-height: 1.2;
@@ -503,18 +562,34 @@ settings:
   --h6-line-height: 1.4;
   --heading-spacing: 1.4em;
 
-  --code-background: rgba(245, 244, 237, 0.07);
-  --code-normal:      #e8e6dc;
-  --code-comment:     #87867f;
-  --code-keyword:     var(--nous-terracotta);
-  --code-function:    #d5d2c6;
-  --code-string:      var(--nous-sage);
-  --code-value:       #b0aea5;
-  --code-property:    var(--nous-plum);
-  --code-operator:    #a8a69a;
-  --code-tag:         var(--nous-terracotta);
+  /* code syntax — nous --syn-* tokens (dark) */
+  --syn-bg:      #1a1912;
+  --syn-fg:      #ece3cf;
+  --syn-comment: #6b6452;
+  --syn-keyword: #c08b97;
+  --syn-string:  #a5ae74;
+  --syn-number:  #d07e62;
+  --syn-func:    #8fb4c2;
+  --syn-punct:   #948b73;
+
+  --code-background: rgba(245, 244, 237, 0.07);  /* inline code tint */
+  --code-normal:      var(--syn-fg);
+  --code-comment:     var(--syn-comment);
+  --code-keyword:     var(--syn-keyword);
+  --code-function:    var(--syn-func);
+  --code-string:      var(--syn-string);
+  --code-value:       var(--syn-number);
+  --code-property:    var(--syn-func);
+  --code-operator:    var(--syn-punct);
+  --code-tag:         var(--syn-keyword);
   --code-important:   var(--nous-error-crimson);
-  --code-punctuation: #a8a69a;
+  --code-punctuation: var(--syn-punct);
+
+  /* Obsidian native code-block variables — override app.css defaults */
+  --code-block-background:   var(--syn-bg);
+  --code-block-border-color: var(--nous-rule-soft);
+  --code-block-font-size:    0.82em;
+  --code-block-line-height:  1.7;
 
   --shadow-s: 0 0 0 1px #2a2a28;
   --shadow-m: 0 0 0 1px #3d3d3a, 0 4px 24px rgba(0, 0, 0, 0.35);
@@ -581,8 +656,8 @@ settings:
   --indentation-guide-color:        #2a2a28;
   --indentation-guide-color-active: #4d4c48;
 
-  --blockquote-border-color: #4d4c48;
-  --blockquote-color:        #b0aea5;
+  --blockquote-border-color: var(--nous-terracotta);
+  --blockquote-color:        var(--nous-ink-2);
 
   --caret-color: var(--nous-terracotta);
 
@@ -935,11 +1010,17 @@ div.el-h6 > h6,
 
 /* Small-caps on low-level headings (default on; opt-out via Style Settings) */
 body:not(.nous-disable-small-caps) .markdown-preview-view h5,
-body:not(.nous-disable-small-caps) .markdown-preview-view h6,
-body:not(.nous-disable-small-caps) .HyperMD-header-5,
-body:not(.nous-disable-small-caps) .HyperMD-header-6 {
+body:not(.nous-disable-small-caps) .HyperMD-header-5 {
+  font-family: var(--nous-font-sc);
   font-variant-caps: all-small-caps;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+}
+body:not(.nous-disable-small-caps) .markdown-preview-view h6,
+body:not(.nous-disable-small-caps) .HyperMD-header-6 {
+  font-family: var(--nous-font-sc);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.22em;
   font-weight: 500;
 }
 
@@ -952,6 +1033,8 @@ body:not(.nous-disable-small-caps) .HyperMD-header-6 {
   margin: 0 0 0.85em;
   orphans: 3;
   widows: 3;
+  hyphens: auto;
+  text-wrap: pretty;
 }
 
 /* Justified option — LaTeX body feel.
@@ -1014,11 +1097,11 @@ body.nous-number-headings .markdown-preview-view h4::before {
 body.nous-drop-caps .markdown-preview-view .markdown-preview-sizer > p:first-of-type::first-letter,
 body.nous-drop-caps .markdown-preview-view h1 + p::first-letter {
   font-family: var(--nous-font-serif-heading);
-  font-weight: 500;
-  font-size: 3.4em;
-  line-height: 0.9;
+  font-weight: 400;
+  font-size: 4.6em;
+  line-height: 0.82;
   float: left;
-  padding: 0.15em 0.12em 0 0;
+  padding: 0.06em 0.12em 0 0;
   color: var(--nous-terracotta);
   font-feature-settings: "onum" 0, "lnum" 1;
 }
@@ -1050,7 +1133,7 @@ body.nous-drop-caps .markdown-preview-view h1 + p::first-letter {
 .cm-url,
 a.external-link {
   color: var(--link-color);
-  text-decoration-color: rgba(201, 100, 66, 0.35);
+  text-decoration-color: color-mix(in oklab, var(--nous-aegean) 40%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
   transition: color 120ms ease, text-decoration-color 120ms ease;
@@ -1058,21 +1141,21 @@ a.external-link {
 .markdown-preview-view a:hover,
 a.external-link:hover {
   color: var(--link-color-hover);
-  text-decoration-color: var(--nous-coral);
+  text-decoration-color: var(--nous-terracotta);
 }
 
 /* Internal wiki links */
 .internal-link {
   color: var(--link-color);
   text-decoration: none;
-  border-bottom: 1px solid rgba(201, 100, 66, 0.30);
+  border-bottom: 1px solid color-mix(in oklab, var(--nous-aegean) 40%, transparent);
   padding-bottom: 0.5px;
   transition: border-color 120ms ease, color 120ms ease;
 }
-.theme-dark .internal-link { border-bottom-color: rgba(217, 119, 87, 0.35); }
+.theme-dark .internal-link { border-bottom-color: color-mix(in oklab, var(--nous-aegean) 45%, transparent); }
 .internal-link:hover {
   color: var(--link-color-hover);
-  border-bottom-color: var(--nous-coral);
+  border-bottom-color: var(--nous-terracotta);
   text-decoration: none;
 }
 .internal-link.is-unresolved,
@@ -1093,11 +1176,11 @@ a.is-unresolved {
 .markdown-preview-view ul,
 .markdown-preview-view ol { padding-left: 1.75em; margin: 0.4em 0 0.85em; }
 .markdown-preview-view li { margin: 0.2em 0; }
-.markdown-preview-view ul > li::marker { color: var(--nous-terracotta); font-size: 0.9em; }
+.markdown-preview-view ul > li::marker { color: var(--nous-terracotta); content: "· "; font-size: 1em; font-weight: 700; }
 .markdown-preview-view ol > li::marker {
-  color: var(--nous-stone-gray);
-  font-variant-numeric: lining-nums;
-  font-family: var(--nous-font-serif-body);
+  color: var(--nous-ink-4);
+  font-family: var(--nous-font-sc);
+  font-feature-settings: "onum";
 }
 
 /* Task list checkboxes */
@@ -1144,31 +1227,44 @@ a.is-unresolved {
 /* ----- Blockquotes — literary, LaTeX "quote" environment ----- */
 .markdown-preview-view blockquote,
 .markdown-source-view blockquote {
-  margin: 1em 0;
-  padding: 0.2em 1.2em;
+  margin: 1.6em 0;
+  padding: 0.2em 0 0.2em 1.6em;
   border: none;
   border-left: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
   color: var(--blockquote-color);
-  font-style: var(--blockquote-font-style);
+  font-family: var(--nous-font-serif-heading);
+  font-style: italic;
+  font-size: 1.12em;
+  line-height: 1.55;
   background: transparent;
+  position: relative;
 }
-.markdown-preview-view blockquote p { margin: 0.4em 0; }
+.markdown-preview-view blockquote::before {
+  content: "\201C";
+  position: absolute;
+  left: 0.15em;
+  top: -0.15em;
+  font-family: var(--nous-font-serif-heading);
+  font-size: 2.4em;
+  line-height: 1;
+  color: var(--nous-terracotta);
+  opacity: 0.35;
+}
+.markdown-preview-view blockquote p { margin: 0 0 0.4em; }
+.markdown-preview-view blockquote p:last-child { margin-bottom: 0; }
 
-/* ----- Horizontal rule — classical ornament ----- */
+/* ----- Horizontal rule — classical ornament (3-dot SVG) ----- */
 .markdown-preview-view hr {
   border: none;
-  margin: 2em auto;
-  width: 35%;
-  text-align: center;
-  height: 1em;
-  overflow: visible;
+  height: 16px;
+  margin: 2.4em auto;
+  width: 64px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='16' viewBox='0 0 64 16'><g fill='%239a9081'><circle cx='8' cy='8' r='1.4'/><circle cx='32' cy='8' r='1.8'/><circle cx='56' cy='8' r='1.4'/></g></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
 }
-.markdown-preview-view hr::before {
-  content: "✻  ✻  ✻";
-  color: var(--nous-stone-gray);
-  font-size: 0.9em;
-  letter-spacing: 0.4em;
-  display: inline-block;
+.theme-dark .markdown-preview-view hr {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='16' viewBox='0 0 64 16'><g fill='%235e5844'><circle cx='8' cy='8' r='1.4'/><circle cx='32' cy='8' r='1.8'/><circle cx='56' cy='8' r='1.4'/></g></svg>");
 }
 
 /* ============================================================
@@ -1183,52 +1279,62 @@ code {
   letter-spacing: -0.01em;
 }
 
-/* Inline code — Plum text on the warm-tinted background, distinct from
-   body text and from the terracotta link color. Keeps inline `code()`
-   instantly recognizable without competing with links or CTAs. */
+/* Inline code — wine-dark on a warm tint, matching the nous design system. */
 .markdown-preview-view :not(pre) > code,
 .cm-inline-code {
-  background: var(--code-background);
-  color: var(--nous-plum);
-  padding: 0.1em 0.4em;
-  border-radius: 4px;
+  background: color-mix(in oklab, var(--nous-ink) 5%, transparent);
+  color: var(--nous-wine);
+  padding: 1px 6px;
+  border-radius: 2px;
+  border: 1px solid color-mix(in oklab, var(--nous-ink) 6%, transparent);
   font-size: 0.86em;
   white-space: break-spaces;
 }
 
 /* Code blocks — reading mode */
 .markdown-preview-view pre {
-  background: var(--code-background);
-  border-radius: var(--radius-m);
-  box-shadow: inset 0 0 0 1px var(--background-modifier-border);
-  padding: 1em 1.15em;
-  margin: 1em 0;
+  background: var(--syn-bg);
+  color: var(--syn-fg);
+  border-radius: 2px;
+  border: 1px solid var(--nous-rule-soft);
+  border-left: 2px solid var(--nous-aegean);
+  padding: 1.2em 1.4em;
+  margin: 1.4em 0;
   overflow-x: auto;
-  line-height: 1.55;
+  font-size: 0.82em;
+  line-height: 1.7;
+  position: relative;
 }
 
 /* Code blocks — edit mode / live preview.
    CodeMirror 6 renders every line of a fenced block as a separate .cm-line.
-   We build the block from background color alone — no side borders, no
-   box-shadow rails. Rounded corners are applied only to the opening and
-   closing fence lines so the block reads as a single smooth rectangle. */
+   We paint --syn-bg on every line and use the aegean left border to unify
+   the block. Inset box-shadows paint the top/bottom/right hairlines on the
+   opening and closing fence lines only. */
 .cm-line.HyperMD-codeblock {
-  background: var(--code-background);
+  background: var(--syn-bg);
+  color: var(--syn-fg);
+  border-left: 2px solid var(--nous-aegean);
+  box-shadow: inset -1px 0 0 0 var(--nous-rule-soft);
   border-radius: 0;
-  box-shadow: none;
-  border: none;
-  padding-left: 14px;
+  padding-left: 12px;
   padding-right: 14px;
+  font-size: 0.82em;
+  line-height: 1.7;
 }
 .cm-line.HyperMD-codeblock-begin {
-  border-top-left-radius: var(--radius-m);
-  border-top-right-radius: var(--radius-m);
-  padding-top: 4px;
+  box-shadow:
+    inset -1px 0 0 0 var(--nous-rule-soft),
+    inset 0 1px 0 0 var(--nous-rule-soft);
+  border-top-right-radius: 2px;
+  padding-top: 8px;
 }
 .cm-line.HyperMD-codeblock-end {
-  border-bottom-left-radius: var(--radius-m);
-  border-bottom-right-radius: var(--radius-m);
-  padding-bottom: 4px;
+  box-shadow:
+    inset -1px 0 0 0 var(--nous-rule-soft),
+    inset 0 -1px 0 0 var(--nous-rule-soft);
+  border-bottom-right-radius: 2px;
+  padding-bottom: 8px;
 }
 
 /* Strip the side-borders/box-shadows Obsidian's live-preview wrapper
@@ -1243,23 +1349,24 @@ code {
   background: transparent;
 }
 .markdown-preview-view pre code {
-  background: transparent;
+  background: none;
+  color: inherit;
   padding: 0;
-  font-size: var(--code-size);
-  color: var(--code-normal);
+  border: 0;
+  font-size: 1em;
   white-space: pre;
 }
 
 /* Code block flair (language tag & copy button) */
 .code-block-flair {
-  color: var(--nous-stone-gray);
+  color: var(--syn-comment);
   background: transparent;
-  font-family: var(--nous-font-sans-ui);
-  font-size: 11px;
-  letter-spacing: 0.05em;
+  font-family: var(--nous-font-sc);
+  font-size: 10px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 .code-block-flair:hover {
   background: var(--background-modifier-hover);
@@ -1293,26 +1400,27 @@ code {
    ============================================================ */
 .callout {
   --nous-callout-rgb: var(--callout-color, var(--callout-note));
-  background: rgb(var(--nous-callout-rgb) / 0.07);
-  border-radius: var(--callout-radius);
-  box-shadow: inset 3px 0 0 0 rgb(var(--nous-callout-rgb) / 0.9);
+  background: color-mix(in oklab, var(--nous-ink) 3%, transparent);
+  border-radius: 0 2px 2px 0;
+  border-left: 2px solid rgb(var(--nous-callout-rgb));
+  box-shadow: none;
   padding: var(--callout-padding);
-  margin: 1.15em 0;
+  margin: 1.6em 0;
   color: var(--text-normal);
   font-family: var(--nous-font-serif-body);
 }
-.theme-dark .callout { background: rgb(var(--nous-callout-rgb) / 0.10); }
+.theme-dark .callout { background: color-mix(in oklab, var(--nous-ink) 5%, transparent); }
 
 .callout-title {
   padding: 0 0 0.35em 0;
   gap: 8px;
   align-items: baseline;
   color: rgb(var(--nous-callout-rgb));
-  font-family: var(--nous-font-serif-heading);
-  font-weight: 600;
+  font-family: var(--nous-font-sc);
+  font-weight: 500;
   font-variant-caps: all-small-caps;
-  letter-spacing: 0.04em;
-  font-size: 1.02em;
+  letter-spacing: 0.22em;
+  font-size: 11px;
 }
 .callout-title-inner {
   font-weight: inherit;
@@ -1463,11 +1571,13 @@ code {
 .markdown-source-view th,
 div.el-table th,
 div.el-table thead th {
-  font-weight: 600 !important;
-  color: var(--table-header-color);
+  font-family: var(--nous-font-sc);
+  font-weight: 500 !important;
+  color: var(--nous-ink-3);
   font-variant-caps: all-small-caps;
-  letter-spacing: 0.06em;
-  font-size: 1.35em !important;
+  letter-spacing: 0.2em;
+  font-size: 11px !important;
+  text-transform: uppercase;
 }
 .markdown-preview-view td,
 .markdown-source-view td { color: var(--table-text-color); }
@@ -1489,7 +1599,7 @@ div.el-table thead th {
   font-feature-settings: "kern" 1;
 }
 mjx-container, .math, .math-block, .MathJax, .katex {
-  font-size: 1.02em;
+  font-size: 1.15em;
 }
 .markdown-preview-view .math-block,
 .cm-math-block {
@@ -1510,13 +1620,13 @@ mjx-container, .math, .math-block, .MathJax, .katex {
    ============================================================ */
 .markdown-preview-view .footnote-ref a,
 .footnote-ref {
-  font-family: var(--nous-font-sans-ui);
-  font-size: 0.7em;
+  font-size: 0.72em;
   vertical-align: super;
   line-height: 0;
   color: var(--nous-terracotta);
   text-decoration: none;
-  font-feature-settings: "lnum" 1;
+  font-feature-settings: "sups";
+  margin-left: 1px;
 }
 .markdown-preview-view .footnote-ref a:hover { text-decoration: underline; }
 .markdown-preview-view .footnotes {
@@ -1827,24 +1937,24 @@ mjx-container, .math, .math-block, .MathJax, .katex {
 a.tag,
 .cm-hashtag,
 .tag {
-  background: rgba(201, 100, 66, 0.08);
-  color: var(--nous-terracotta);
-  border-radius: 12px;
-  padding: 1px 9px;
-  font-size: 0.8em;
-  font-family: var(--nous-font-sans-ui);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  background: color-mix(in oklab, var(--nous-olive) 10%, transparent);
+  color: var(--nous-olive);
+  border-radius: 2px;
+  padding: 1px 6px;
+  font-size: 0.82em;
+  font-family: var(--nous-font-mono);
+  font-weight: 400;
+  letter-spacing: 0;
   text-decoration: none;
   border: none;
 }
 .theme-dark a.tag,
 .theme-dark .cm-hashtag,
-.theme-dark .tag { background: rgba(217, 119, 87, 0.14); }
+.theme-dark .tag { background: color-mix(in oklab, var(--nous-olive) 12%, transparent); }
 a.tag:hover,
-.tag:hover { background: rgba(201, 100, 66, 0.15); color: var(--nous-coral); text-decoration: none; }
+.tag:hover { background: color-mix(in oklab, var(--nous-olive) 18%, transparent); color: var(--nous-olive); text-decoration: none; }
 .theme-dark a.tag:hover,
-.theme-dark .tag:hover { background: rgba(217, 119, 87, 0.22); }
+.theme-dark .tag:hover { background: color-mix(in oklab, var(--nous-olive) 20%, transparent); }
 
 .cm-hashtag-begin, .cm-hashtag-end { padding: 0; border: none; }
 
@@ -2581,7 +2691,7 @@ textarea:focus,
 .markdown-preview-view .mermaid .entityLabel,
 .mermaid text.entityLabel {
   fill: var(--text-normal) !important;
-  font-family: var(--nous-font-serif-heading) !important;
+  font-family: var(--nous-font-sc) !important;
   font-variant-caps: all-small-caps;
   letter-spacing: 0.06em;
   font-weight: 600 !important;
@@ -3074,6 +3184,7 @@ body.theme-dark .mermaid g.legend text {
 }
 .block-language-dataview table.dataview th,
 .block-language-dataview table.table-view-table th {
+  font-family: var(--nous-font-sc);
   font-variant-caps: all-small-caps;
   letter-spacing: 0.06em;
   font-weight: 600;
@@ -3131,6 +3242,7 @@ body.theme-dark .mermaid g.legend text {
 .markdown-rendered .dataview.inline-field-key {
   background: transparent;
   color: var(--text-faint);
+  font-family: var(--nous-font-sc);
   font-variant-caps: all-small-caps;
   letter-spacing: 0.06em;
   font-weight: 600;
